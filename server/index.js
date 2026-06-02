@@ -6,6 +6,16 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import process from 'process';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Load environment variables from .env file inside server directory
+try {
+  process.loadEnvFile(path.join(__dirname, '.env'));
+} catch (e) {
+  // Ignore if .env file is missing
+}
 
 import usersRouter from './routes/users.js';
 import roomsRouter from './routes/rooms.js';
@@ -15,7 +25,6 @@ import { generalLimiter } from './middleware/rateLimit.js';
 import setupSocketHandlers from './socket/handlers.js';
 import { getRoomCount, getOnlineUserCount } from './roomManager.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const server = createServer(app);
 

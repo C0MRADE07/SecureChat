@@ -8,7 +8,7 @@ window.SecureStorage = (function() {
 
   async function initDB() {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open('securechat', 1);
+      const request = indexedDB.open('securechat', 2);
       request.onupgradeneeded = (e) => {
         const database = e.target.result;
         if (!database.objectStoreNames.contains('keys')) {
@@ -42,7 +42,9 @@ window.SecureStorage = (function() {
   function idbPut(store, key, value) {
     return new Promise((resolve, reject) => {
       const tx = db.transaction(store, 'readwrite');
-      const req = tx.objectStore(store).put(value, key);
+      const req = (key === null || key === undefined)
+        ? tx.objectStore(store).put(value)
+        : tx.objectStore(store).put(value, key);
       req.onsuccess = () => resolve();
       req.onerror = () => reject(req.error);
     });
