@@ -121,7 +121,7 @@
   async function login(password, totp) {
     const data = await api('/api/admin/login', {
       method: 'POST',
-      body: JSON.stringify({ password, totp })
+      body: JSON.stringify({ password, totp, totpCode: totp })
     });
 
     if (!data) return false;

@@ -16,9 +16,10 @@ let totpSecret = process.env.ADMIN_TOTP_SECRET || null;
 // ── POST /api/admin/login ──
 router.post('/login', adminLoginLimiter, async (req, res) => {
   try {
-    const { password, totpCode } = req.body;
+    const { password, totpCode, totp } = req.body;
+    const code = totpCode || totp;
 
-    if (!password || !totpCode) {
+    if (!password || !code) {
       return res.status(400).json({ error: 'Password and TOTP code are required.' });
     }
 
@@ -41,7 +42,7 @@ router.post('/login', adminLoginLimiter, async (req, res) => {
       const verified = speakeasy.totp.verify({
         secret: totpSecret,
         encoding: 'base32',
-        token: totpCode,
+        token: code,
         window: 1,
       });
       if (!verified) {
