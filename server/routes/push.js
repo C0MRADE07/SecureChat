@@ -4,13 +4,13 @@ import { savePushToken } from '../db.js';
 const router = Router();
 
 // POST /api/push/register — Store push notification token
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { userId, token } = req.body;
     if (!userId || !token) {
       return res.status(400).json({ error: 'userId and token are required.' });
     }
-    savePushToken(userId, token);
+    await savePushToken(userId, token);
     res.json({ success: true });
   } catch (err) {
     console.error('Push register error:', err);

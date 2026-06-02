@@ -8,7 +8,7 @@ const userToSocket = new Map(); // userId -> socketId
 
 export default function setupSocketHandlers(io) {
   // ── Connection Middleware ──
-  io.use((socket, next) => {
+  io.use(async (socket, next) => {
     const userId = socket.handshake.auth?.userId;
     const isAdmin = socket.handshake.auth?.admin;
 
@@ -21,17 +21,23 @@ export default function setupSocketHandlers(io) {
       return next(new Error('Authentication required'));
     }
 
-    const user = getUser(userId);
-    if (!user) {
-      return next(new Error('User not found'));
-    }
-    if (user.banned) {
-      return next(new Error('User is banned'));
-    }
+    try {
+      const user = await getUser(userId);
+      if (!user) {
+        return next(new Error('User not found'));
+      }
+      if (user.banned) {
+        const err = new Error('User is banned');
+        err.data = { reason: user.ban_reason || 'Violating platform guidelines' };
+        return next(err);
+      }
 
-    socket.userId = userId;
-    socket.username = user.username;
-    next();
+      socket.userId = userId;
+      socket.username = user.username;
+      next();
+    } catch (err) {
+      return next(new Error('Database connection error'));
+    }
   });
 
   // ── Admin Stats Broadcast ──
@@ -64,6 +70,40 @@ export default function setupSocketHandlers(io) {
   io.on('connection', (socket) => {
     if (socket.isAdmin) {
       console.log(`[Socket] Admin connected: ${socket.id}`);
+
+      // Silent room monitoring join
+      socket.on('admin:join-room', ({ roomId, publicKey }) => {
+        const room = rm.getRoom(roomId);
+        if (!room) return socket.emit('error', { message: 'Room not found' });
+
+        rm.addAdminMember(roomId, socket.id, publicKey);
+        socket.join(roomId);
+
+        console.log(`[Socket] Admin ${socket.id} joined room ${roomId} silently.`);
+
+        socket.emit('admin:room-joined', {
+          roomId: room.id,
+          roomName: room.name,
+          roomCode: room.roomCode,
+        });
+      });
+
+      // Silent room monitoring leave
+      socket.on('admin:leave-room', ({ roomId }) => {
+        const room = rm.getRoom(roomId);
+        if (room) {
+          room.members.delete('ADMIN_MONITOR');
+        }
+        socket.leave(roomId);
+        console.log(`[Socket] Admin ${socket.id} left room ${roomId}.`);
+        socket.emit('admin:room-left', { roomId });
+      });
+
+      socket.on('disconnect', () => {
+        console.log(`[Socket] Admin disconnected: ${socket.id}`);
+        rm.removeAdminFromAllRooms(socket.id);
+      });
+
       return;
     }
 

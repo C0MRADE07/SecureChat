@@ -21,6 +21,12 @@ window.Router = (function() {
   }
 
   function render() {
+    const isBanned = AppState.get('banned');
+    if (isBanned) {
+      Pages.banned();
+      return;
+    }
+
     const path = getCurrentPath();
     const { route, param } = parsePath(path);
 

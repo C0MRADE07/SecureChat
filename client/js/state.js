@@ -9,6 +9,8 @@ window.AppState = (function() {
     rooms: [],
     connected: false,
     theme: 'bioluminescent',
+    banned: false,
+    banReason: '',
   };
 
   const listeners = {};

@@ -18,6 +18,7 @@
     "helmet": "^7.1.0",
     "cors": "^2.8.5",
     "uuid": "^9.0.0",
-    "cookie-parser": "^1.4.6"
+    "cookie-parser": "^1.4.6",
+    "@libsql/client": "^0.6.0"
   }
 }

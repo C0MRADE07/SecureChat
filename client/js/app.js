@@ -9,9 +9,9 @@
   console.log('%c🔐 SecureChat v1.0.0', 'color:#00f5d4;font-size:16px;font-weight:bold;');
   console.log('%c   End-to-end encrypted messaging', 'color:#5a7a96;font-size:11px;');
 
-  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
-    : 'https://securechat-7t0n.onrender.com';
+  const BACKEND_URL = (window.location.port === '3000' || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'))
+    ? window.location.origin
+    : 'http://localhost:3000';
 
   async function checkServerConnection() {
     const statusText = document.getElementById('splash-status');
@@ -131,6 +131,15 @@
       // 1. Initialize IndexedDB
       await SecureStorage.initDB();
       console.log('[App] Storage initialized');
+
+      // Apply stored theme
+      const savedTheme = SecureStorage.getTheme();
+      AppState.set('theme', savedTheme);
+      document.body.className = 'theme-' + savedTheme;
+
+      AppState.subscribe('theme', (newTheme) => {
+        document.body.className = 'theme-' + newTheme;
+      });
 
       // 2. Check if user exists
       const userId = SecureStorage.getUserId();

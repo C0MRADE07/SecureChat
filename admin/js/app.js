@@ -3,12 +3,153 @@
    Pure JS • No frameworks • Bioluminescent theme
    ═══════════════════════════════════════════════════════════════════ */
 
+window.SecureIcons = {
+  getSvg(name, color = 'currentColor', size = '1.2em') {
+    const paths = {
+      lock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>',
+      users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
+      settings: '<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>',
+      eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>',
+      'eye-off': '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>',
+      chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>',
+      key: '<path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>',
+      door: '<path d="M15 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line>',
+      ban: '<circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>',
+      dashboard: '<rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect>',
+      broadcast: '<path d="M12 19V5H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7z"></path><path d="M12 5h3l6 4v6l-6 4h-3"></path><line x1="23" y1="12" x2="21" y2="12"></line><line x1="3" y1="19" x2="6" y2="21"></line>',
+      clipboard: '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>',
+      shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>',
+      'arrow-right': '<line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>',
+      'arrow-left': '<line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>',
+      clock: '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>',
+      send: '<line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>',
+      plus: '<line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>',
+      alert: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
+    };
+    const p = paths[name] || '';
+    return `<svg class="secure-icon icon-${name}" viewBox="0 0 24 24" width="${size}" height="${size}" stroke="${color}" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; pointer-events:none; transition: filter 0.2s ease;">${p}</svg>`;
+  }
+};
+
+// Admin Cryptography Helper for silent E2E monitoring
+const AdminCrypto = {
+  keyPair: null,
+  publicKeyBase64: null,
+
+  arrayBufferToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  },
+
+  base64ToArrayBuffer(base64) {
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes.buffer;
+  },
+
+  async init() {
+    if (this.keyPair) return;
+    
+    const pubJwk = localStorage.getItem('admin_pub_jwk');
+    const privJwk = localStorage.getItem('admin_priv_jwk');
+    
+    if (pubJwk && privJwk) {
+      try {
+        const pubKey = await crypto.subtle.importKey(
+          'jwk',
+          JSON.parse(pubJwk),
+          { name: 'RSA-OAEP', hash: 'SHA-256' },
+          true,
+          ['encrypt']
+        );
+        const privKey = await crypto.subtle.importKey(
+          'jwk',
+          JSON.parse(privJwk),
+          { name: 'RSA-OAEP', hash: 'SHA-256' },
+          true,
+          ['decrypt']
+        );
+        this.keyPair = { publicKey: pubKey, privateKey: privKey };
+        this.publicKeyBase64 = localStorage.getItem('admin_pub_b64');
+        return;
+      } catch (e) {
+        console.error('Failed to import admin keys, generating new ones...', e);
+      }
+    }
+
+    const pair = await crypto.subtle.generateKey(
+      {
+        name: 'RSA-OAEP',
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: 'SHA-256'
+      },
+      true,
+      ['encrypt', 'decrypt']
+    );
+    this.keyPair = pair;
+
+    const pubExport = await crypto.subtle.exportKey('jwk', pair.publicKey);
+    const privExport = await crypto.subtle.exportKey('jwk', pair.privateKey);
+    const spki = await crypto.subtle.exportKey('spki', pair.publicKey);
+    const spkiB64 = this.arrayBufferToBase64(spki);
+
+    localStorage.setItem('admin_pub_jwk', JSON.stringify(pubExport));
+    localStorage.setItem('admin_priv_jwk', JSON.stringify(privExport));
+    localStorage.setItem('admin_pub_b64', spkiB64);
+    this.publicKeyBase64 = spkiB64;
+  },
+
+  async decrypt(payload) {
+    if (!this.keyPair) await this.init();
+    
+    try {
+      const encryptedAESKeyB64 = payload.encryptedKeys['ADMIN_MONITOR'];
+      if (!encryptedAESKeyB64) {
+        return '[Decryption Error: Admin key not used by sender]';
+      }
+
+      const rawAesKey = await crypto.subtle.decrypt(
+        { name: 'RSA-OAEP' },
+        this.keyPair.privateKey,
+        this.base64ToArrayBuffer(encryptedAESKeyB64)
+      );
+
+      const aesKey = await crypto.subtle.importKey(
+        'raw',
+        rawAesKey,
+        'AES-GCM',
+        false,
+        ['decrypt']
+      );
+
+      const decrypted = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: this.base64ToArrayBuffer(payload.iv) },
+        aesKey,
+        this.base64ToArrayBuffer(payload.encryptedMessage)
+      );
+
+      return new TextDecoder().decode(decrypted);
+    } catch (e) {
+      console.error('Decryption failed:', e);
+      return '[Decryption failed]';
+    }
+  }
+};
+
 (function () {
   'use strict';
 
-  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
-    : 'https://securechat-7t0n.onrender.com';
+  const BACKEND_URL = (window.location.port === '3000' || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'))
+    ? window.location.origin
+    : 'http://localhost:3000';
 
   // ── State ────────────────────────────────────────────────────────
   const state = {
@@ -33,6 +174,7 @@
     socket: null,
     setupRequired: false,
     setupData: null,
+    totpRequired: false,
     refreshTimer: null,
     sidebarOpen: false
   };
@@ -171,7 +313,11 @@
       const res = await fetch(BACKEND_URL + '/api/admin/setup', { credentials: 'include' });
       if (!res.ok) return false;
       const data = await res.json();
-      if (data && data.qrCode) {
+      
+      // Store whether 2FA is active
+      state.totpRequired = !!data.totpRequired;
+      
+      if (data && data.configured === false && data.qrCode) {
         state.setupRequired = true;
         state.setupData = data;
         return true;
@@ -242,6 +388,32 @@
         if (state.currentPage === 'rooms') renderRoomsTable();
       }
     });
+
+    // Real-time room creation notification
+    state.socket.on('admin:room-created', (data) => {
+      showToast(`New room created: "${data.name}" by @${data.ownerUsername}`, 'success');
+      if (state.rooms) {
+        if (!state.rooms.some(r => r.id === data.id)) {
+          state.rooms.push({
+            id: data.id,
+            name: data.name,
+            code: data.code,
+            roomCode: data.code,
+            owner: data.ownerUsername,
+            ownerUsername: data.ownerUsername,
+            memberCount: 1,
+            pendingCount: 0,
+            createdAt: data.createdAt,
+            members: [{ username: data.ownerUsername, userId: '', online: true }]
+          });
+          if (state.currentPage === 'rooms') renderRoomsTable();
+        }
+      }
+      if (state.stats) {
+        state.stats.roomCount = (state.stats.roomCount || 0) + 1;
+        if (state.currentPage === 'dashboard') updateDashboardStats();
+      }
+    });
   }
 
   function updateConnectionIndicator(online) {
@@ -257,7 +429,7 @@
 
   // ── Navigation ───────────────────────────────────────────────────
 
-  const PAGES = ['login', 'setup', 'dashboard', 'rooms', 'users', 'broadcast', 'ban-log'];
+  const PAGES = ['login', 'setup', 'dashboard', 'rooms', 'users', 'broadcast', 'ban-log', 'settings'];
 
   function navigate(page) {
     if (!PAGES.includes(page)) page = 'dashboard';
@@ -309,6 +481,9 @@
       case 'ban-log':
         renderBanLog();
         break;
+      case 'settings':
+        renderSettings();
+        break;
       default:
         renderDashboard();
     }
@@ -320,11 +495,12 @@
    */
   function renderLayout(title) {
     const navItems = [
-      { id: 'dashboard', icon: '📊', label: 'Dashboard' },
-      { id: 'rooms', icon: '💬', label: 'Rooms' },
-      { id: 'users', icon: '👥', label: 'Users' },
-      { id: 'broadcast', icon: '📢', label: 'Broadcast' },
-      { id: 'ban-log', icon: '🚫', label: 'Ban Log' }
+      { id: 'dashboard', icon: SecureIcons.getSvg('dashboard', 'var(--accent)', '20px'), label: 'Dashboard' },
+      { id: 'rooms', icon: SecureIcons.getSvg('chat', 'var(--accent)', '20px'), label: 'Rooms' },
+      { id: 'users', icon: SecureIcons.getSvg('users', 'var(--accent)', '20px'), label: 'Users' },
+      { id: 'broadcast', icon: SecureIcons.getSvg('broadcast', 'var(--accent)', '20px'), label: 'Broadcast' },
+      { id: 'ban-log', icon: SecureIcons.getSvg('ban', 'var(--accent)', '20px'), label: 'Ban Log' },
+      { id: 'settings', icon: SecureIcons.getSvg('settings', 'var(--accent)', '20px'), label: 'Settings' }
     ];
 
     root.innerHTML = `
@@ -334,7 +510,7 @@
         <aside class="sidebar" id="sidebar">
           <div class="sidebar-header">
             <div class="sidebar-logo">
-              <div class="sidebar-logo-icon">🛡️</div>
+              <div class="sidebar-logo-icon">${SecureIcons.getSvg('shield', 'var(--accent)', '24px')}</div>
               <div class="sidebar-logo-info">
                 <div class="sidebar-logo-text">SecureChat</div>
                 <div class="sidebar-logo-sub">Admin Panel</div>
@@ -419,10 +595,12 @@
   // ── Render: Login ────────────────────────────────────────────────
 
   function renderLogin() {
+    const totpDisplay = state.totpRequired ? 'block' : 'none';
+
     root.innerHTML = `
       <div class="login-container">
         <div class="login-card">
-          <div class="login-icon">🛡️</div>
+          <div class="login-icon">${SecureIcons.getSvg('shield', 'var(--accent)', '48px')}</div>
           <h1 class="login-title">Admin Access</h1>
           <p class="login-subtitle">// restricted — credentials required</p>
 
@@ -441,17 +619,19 @@
               >
             </div>
 
-            <div class="totp-label">TOTP Authentication Code</div>
-            <div class="totp-row" id="totp-row">
-              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="0" autocomplete="off">
-              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="1" autocomplete="off">
-              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="2" autocomplete="off">
-              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="3" autocomplete="off">
-              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="4" autocomplete="off">
-              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="5" autocomplete="off">
+            <div class="totp-group-container" style="display: ${totpDisplay}; margin-top: 16px;">
+              <div class="totp-label" style="margin-bottom: 8px;">TOTP Authentication Code</div>
+              <div class="totp-row" id="totp-row">
+                <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="0" autocomplete="off">
+                <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="1" autocomplete="off">
+                <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="2" autocomplete="off">
+                <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="3" autocomplete="off">
+                <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="4" autocomplete="off">
+                <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="5" autocomplete="off">
+              </div>
             </div>
 
-            <button type="submit" class="btn btn-violet" style="width:100%;margin-top:8px;" id="login-submit-btn">
+            <button type="submit" class="btn btn-violet" style="width:100%;margin-top:24px;" id="login-submit-btn">
               Verify & Enter →
             </button>
           </form>
@@ -459,8 +639,10 @@
       </div>
     `;
 
-    // Bind TOTP digit inputs
-    setupTOTPInputs('totp-row', handleLoginSubmit);
+    // Bind TOTP digit inputs if required
+    if (state.totpRequired) {
+      setupTOTPInputs('totp-row', handleLoginSubmit);
+    }
 
     // Form submit
     const form = document.getElementById('login-form');
@@ -549,7 +731,7 @@
       showLoginError('Password is required');
       return;
     }
-    if (totp.length !== 6) {
+    if (state.totpRequired && totp.length !== 6) {
       showLoginError('Enter all 6 TOTP digits');
       return;
     }
@@ -565,11 +747,13 @@
       submitBtn.disabled = false;
       submitBtn.innerHTML = 'Verify & Enter →';
       // Clear TOTP
-      digits.forEach(d => {
-        d.value = '';
-        d.classList.remove('filled');
-      });
-      digits[0].focus();
+      if (state.totpRequired) {
+        digits.forEach(d => {
+          d.value = '';
+          d.classList.remove('filled');
+        });
+        digits[0].focus();
+      }
     } else if (result === false) {
       showLoginError('Connection failed — try again');
       submitBtn.disabled = false;
@@ -818,7 +1002,7 @@
     if (!state.rooms.length) {
       body.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">💬</div>
+          <div class="empty-state-icon">${SecureIcons.getSvg('chat', 'var(--text-dim)', '48px')}</div>
           <div class="empty-state-text">No active rooms</div>
         </div>
       `;
@@ -875,10 +1059,13 @@
     const members = room.members || [];
     const memberHtml = members.length
       ? `<ul class="member-list">${members.map(m => `
-          <li>
-            <div class="member-avatar">👤</div>
-            <span>${escapeHtml(m.username || m.name || 'Anonymous')}</span>
-            <span class="mono" style="margin-left:auto;font-size:10px;">${truncateUUID(m.uuid || m.id || '')}</span>
+          <li style="display:flex; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.02);">
+            <span class="status-dot ${m.online !== false ? 'online' : 'offline'}" style="margin-right:8px; width:8px; height:8px; display:inline-block; border-radius:50%; background-color:${m.online !== false ? 'var(--success)' : 'var(--text-muted)'}; box-shadow:${m.online !== false ? '0 0 8px var(--success)' : 'none'};"></span>
+            <div style="margin-right:8px; display:flex; align-items:center; opacity:0.7;">
+              ${SecureIcons.getSvg('users', 'var(--accent)', '14px')}
+            </div>
+            <span>@${escapeHtml(m.username || 'Anonymous')}</span>
+            <span class="mono" style="margin-left:auto; font-size:10px; color:var(--text-dim);">${truncateUUID(m.userId || m.uuid || m.id || '')}</span>
           </li>
         `).join('')}</ul>`
       : '<p style="color:var(--text-dim);font-size:13px;">No member data available</p>';
@@ -887,13 +1074,119 @@
       `Room: ${escapeHtml(room.name || 'Unnamed')}`,
       `
         <div style="margin-bottom:12px;">
-          <span class="mono" style="font-size:11px;color:var(--text-dim);">Code: ${escapeHtml(room.code || room.id || '')}</span>
+          <span class="mono" style="font-size:11px;color:var(--text-dim);">Code: ${escapeHtml(room.code || room.roomCode || room.id || '')}</span>
         </div>
         <div class="section-heading">Members (${members.length})</div>
         ${memberHtml}
       `,
-      [{ label: 'Close', class: 'btn-secondary', action: 'close' }]
+      [
+        { label: 'Close', class: 'btn-secondary', action: 'close' },
+        {
+          label: 'Monitor Live Chat',
+          class: 'btn-primary',
+          action: async (closeModal) => {
+            closeModal();
+            await startRoomMonitoring(roomId);
+          }
+        }
+      ]
     );
+  }
+
+  // ── Administrative Silent E2E Chat Monitoring ──
+  async function startRoomMonitoring(roomId) {
+    const room = state.rooms.find(r => r.id === roomId);
+    if (!room) return;
+
+    await AdminCrypto.init();
+
+    const modalContent = `
+      <div class="monitor-chat-container" style="display:flex; flex-direction:column; height:350px; background:rgba(0,0,0,0.2); border-radius:var(--radius); border:1px solid var(--border); overflow:hidden;">
+        <div class="monitor-chat-header" style="padding:10px; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02); font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between; align-items:center;">
+          <span>Live feed — silent monitor</span>
+          <span class="monitor-status" style="color:var(--accent); font-family:var(--font-mono);">Connecting...</span>
+        </div>
+        <div class="monitor-messages" id="monitor-messages-list" style="flex:1; padding:12px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; font-size:13px;">
+          <div style="color:var(--text-dim); text-align:center; font-style:italic; margin-top:20px;">Awaiting messages...</div>
+        </div>
+      </div>
+    `;
+
+    // Handle incoming messages
+    async function handleMonitorMessage(data) {
+      if (data.senderId === '__SYSTEM__') {
+        appendMessage(`[SYSTEM] ${data.payload.message}`, 'var(--text-dim)');
+        return;
+      }
+      const text = await AdminCrypto.decrypt(data.payload);
+      appendMessage(`@${data.senderName}: ${text}`, 'var(--text)');
+    }
+
+    const modalObj = showModal(
+      `Monitoring Room: ${escapeHtml(room.name || 'Unnamed')}`,
+      modalContent,
+      [
+        {
+          label: 'Stop Monitoring',
+          class: 'btn-secondary',
+          action: (closeModal) => {
+            if (state.socket) {
+              state.socket.emit('admin:leave-room', { roomId });
+              state.socket.off('room:message', handleMonitorMessage);
+            }
+            closeModal();
+          }
+        }
+      ]
+    );
+
+    if (state.socket) {
+      state.socket.emit('admin:join-room', { roomId, publicKey: AdminCrypto.publicKeyBase64 });
+      
+      const statusSpan = document.querySelector('.monitor-status');
+      state.socket.once('admin:room-joined', () => {
+        if (statusSpan) {
+          statusSpan.textContent = 'ONLINE (SILENT)';
+          statusSpan.style.color = 'var(--success)';
+        }
+      });
+
+      const messageList = document.getElementById('monitor-messages-list');
+      state.socket.on('room:message', handleMonitorMessage);
+
+      function appendMessage(text, color) {
+        if (!messageList) return;
+        const placeholder = messageList.querySelector('div');
+        if (placeholder && placeholder.style.fontStyle === 'italic') {
+          placeholder.remove();
+        }
+
+        const msgDiv = document.createElement('div');
+        msgDiv.style.cssText = `padding:8px 12px; border-radius:var(--radius); background:rgba(255,255,255,0.03); max-width:90%; color:${color}; line-height:1.4; word-break:break-all;`;
+        msgDiv.textContent = text;
+        messageList.appendChild(msgDiv);
+        messageList.scrollTop = messageList.scrollHeight;
+      }
+
+      // Hook modal closure cleanup via MutationObserver
+      const overlay = document.querySelector('.modal-overlay');
+      if (overlay) {
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.removedNodes.forEach((node) => {
+              if (node === overlay) {
+                if (state.socket) {
+                  state.socket.emit('admin:leave-room', { roomId });
+                  state.socket.off('room:message', handleMonitorMessage);
+                }
+                observer.disconnect();
+              }
+            });
+          });
+        });
+        observer.observe(document.body, { childList: true });
+      }
+    }
   }
 
   function confirmCloseRoom(roomId, roomName) {
@@ -1274,13 +1567,16 @@
 
   async function fetchBanLog() {
     const data = await api('/api/admin/ban-log');
-    if (data && Array.isArray(data)) {
-      state.banLog = data;
-    } else if (data && data.logs) {
-      state.banLog = data.logs;
+    if (data) {
+      if (Array.isArray(data)) {
+        state.banLog = data;
+      } else if (data.logs) {
+        state.banLog = data.logs;
+      } else if (data.log) {
+        state.banLog = data.log;
+      }
     }
   }
-
   function renderBanLogTable() {
     const body = document.getElementById('content-body');
     if (!body || state.currentPage !== 'ban-log') return;
@@ -1288,7 +1584,7 @@
     if (!state.banLog.length) {
       body.innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">📋</div>
+          <div class="empty-state-icon">${SecureIcons.getSvg('clipboard', 'var(--text-dim)', '48px')}</div>
           <div class="empty-state-text">No ban records yet</div>
         </div>
       `;
@@ -1332,6 +1628,283 @@
         </table>
       </div>
     `;
+  }
+
+  // ── Render: Settings ─────────────────────────────────────────────
+
+  function renderSettings() {
+    const body = renderLayout('Admin Settings');
+
+    const totpStatusText = state.totpRequired
+      ? `<span class="status-badge status-active" style="display:inline-block; font-size:12px;">● Enabled</span>`
+      : `<span class="status-badge status-offline" style="display:inline-block; font-size:12px; background:rgba(255,255,255,0.05); color:var(--text-dim);">○ Disabled</span>`;
+
+    const totpActionBtn = state.totpRequired
+      ? `<button class="btn btn-danger" style="margin-top:16px; width:auto;" id="disable-2fa-btn">Disable 2FA</button>`
+      : `<button class="btn btn-primary" style="margin-top:16px; width:auto;" id="enable-2fa-btn">Enable 2FA (TOTP)</button>`;
+
+    body.innerHTML = `
+      <div style="max-width:700px; display:flex; flex-direction:column; gap:24px;">
+        
+        <!-- Change Password Card -->
+        <div class="stat-card" style="display:block; text-align:left; padding:24px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+            <div style="opacity:0.8;">${SecureIcons.getSvg('key', 'var(--accent)', '20px')}</div>
+            <div class="section-heading" style="margin:0; font-size:18px; font-weight:600;">Change Administrator Password</div>
+          </div>
+          <form id="change-password-form" autocomplete="off" style="display:flex; flex-direction:column; gap:16px;">
+            <div class="form-group">
+              <label class="form-label">Current Password</label>
+              <input type="password" class="form-input" id="current-password" placeholder="Enter current password" required autocomplete="current-password">
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-input" id="new-password" placeholder="Enter new password (min. 5 chars)" required autocomplete="new-password">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirm New Password</label>
+              <input type="password" class="form-input" id="confirm-password" placeholder="Confirm new password" required autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn btn-violet" style="width:auto; align-self:flex-start;" id="password-submit-btn">Update Password</button>
+          </form>
+        </div>
+
+        <!-- 2FA Settings Card -->
+        <div class="stat-card" style="display:block; text-align:left; padding:24px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+            <div style="opacity:0.8;">${SecureIcons.getSvg('lock', 'var(--accent)', '20px')}</div>
+            <div class="section-heading" style="margin:0; font-size:18px; font-weight:600;">Two-Factor Authentication (2FA)</div>
+          </div>
+          <p style="font-size:13px; color:var(--text-dim); line-height:1.6; margin-bottom:12px;">
+            Two-factor authentication adds an extra layer of security to your admin account by requiring a temporary code from an authenticator app (like Google Authenticator, Authy, or Microsoft Authenticator) in addition to your password during login.
+          </p>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:13px; color:var(--text-dim);">Current Status:</span>
+            ${totpStatusText}
+          </div>
+          ${totpActionBtn}
+        </div>
+
+      </div>
+    `;
+
+    // ── Bind Change Password ──
+    const pwForm = document.getElementById('change-password-form');
+    pwForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const currentPassword = document.getElementById('current-password').value.trim();
+      const newPassword = document.getElementById('new-password').value.trim();
+      const confirmPassword = document.getElementById('confirm-password').value.trim();
+      const btn = document.getElementById('password-submit-btn');
+
+      if (newPassword !== confirmPassword) {
+        showToast("New passwords do not match", "warning");
+        return;
+      }
+
+      if (newPassword.length < 5) {
+        showToast("New password must be at least 5 characters long", "warning");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner spinner-sm"></span> Updating...';
+
+      const res = await api('/api/admin/settings/password', {
+        method: 'POST',
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+
+      btn.disabled = false;
+      btn.innerHTML = 'Update Password';
+
+      if (res && res.success) {
+        showToast(res.message || "Password updated successfully", "success");
+        pwForm.reset();
+      } else {
+        showToast(res?.error || "Failed to update password", "error");
+      }
+    });
+
+    // ── Bind Enable 2FA ──
+    const enableBtn = document.getElementById('enable-2fa-btn');
+    if (enableBtn) {
+      enableBtn.addEventListener('click', async () => {
+        enableBtn.disabled = true;
+        enableBtn.innerHTML = '<span class="spinner spinner-sm"></span> Loading...';
+
+        const res = await api('/api/admin/settings/2fa/setup');
+        
+        enableBtn.disabled = false;
+        enableBtn.innerHTML = 'Enable 2FA (TOTP)';
+
+        if (!res || !res.qrCode) {
+          showToast(res?.error || "Failed to generate 2FA setup details", "error");
+          return;
+        }
+
+        // Show verification modal with QR code
+        const modalHtml = `
+          <div style="text-align:center;">
+            <div style="margin-bottom:16px;">
+              <img src="${res.qrCode}" alt="2FA QR Code" style="border:4px solid var(--bg-surface-2); border-radius:var(--radius); padding:4px;" width="180" height="180">
+            </div>
+            <div class="mono" style="font-size:11px; color:var(--accent); background:rgba(0,245,212,0.05); padding:8px; border-radius:6px; margin-bottom:16px; word-break:break-all;">
+              Key: ${res.secret}
+            </div>
+            <p style="font-size:12px; color:var(--text-dim); margin-bottom:16px; line-height:1.5;">
+              Scan this QR code with your authenticator app, then enter the 6-digit verification code below to enable 2FA.
+            </p>
+            <div class="totp-row" id="modal-totp-row" style="justify-content:center; margin-bottom:16px;">
+              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="0" autocomplete="off">
+              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="1" autocomplete="off">
+              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="2" autocomplete="off">
+              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="3" autocomplete="off">
+              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="4" autocomplete="off">
+              <input type="text" class="totp-digit" maxlength="1" inputmode="numeric" data-index="5" autocomplete="off">
+            </div>
+            <div id="modal-totp-error" style="color:var(--danger); font-size:12px; margin-bottom:12px; display:none;"></div>
+          </div>
+        `;
+
+        let modalController;
+
+        const verifyCode = async () => {
+          const digits = document.querySelectorAll('#modal-totp-row .totp-digit');
+          const code = Array.from(digits).map(d => d.value).join('');
+          const errEl = document.getElementById('modal-totp-error');
+
+          if (code.length !== 6) return;
+
+          if (errEl) errEl.style.display = 'none';
+
+          const verifyBtn = document.querySelector('[data-modal-action="1"]');
+          if (verifyBtn) {
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<span class="spinner spinner-sm"></span>';
+          }
+
+          const verifyRes = await api('/api/admin/settings/2fa/enable', {
+            method: 'POST',
+            body: JSON.stringify({ secret: res.secret, totpCode: code })
+          });
+
+          if (verifyRes && verifyRes.success) {
+            showToast("Two-factor authentication enabled successfully", "success");
+            state.totpRequired = true;
+            if (modalController) modalController.close();
+            renderSettings(); // Re-render page
+          } else {
+            if (errEl) {
+              errEl.textContent = verifyRes?.error || "Verification failed";
+              errEl.style.display = 'block';
+            }
+            if (verifyBtn) {
+              verifyBtn.disabled = false;
+              verifyBtn.innerHTML = 'Verify';
+            }
+            digits.forEach(d => { d.value = ''; d.classList.remove('filled'); });
+            digits[0].focus();
+          }
+        };
+
+        modalController = showModal(
+          "Setup Two-Factor Auth",
+          modalHtml,
+          [
+            { label: 'Cancel', class: 'btn-secondary', action: 'close' },
+            {
+              label: 'Verify',
+              class: 'btn-primary',
+              action: verifyCode
+            }
+          ]
+        );
+
+        // Set up the inputs inside the modal
+        setTimeout(() => {
+          setupTOTPInputs('modal-totp-row', verifyCode);
+        }, 100);
+      });
+    }
+
+    // ── Bind Disable 2FA ──
+    const disableBtn = document.getElementById('disable-2fa-btn');
+    if (disableBtn) {
+      disableBtn.addEventListener('click', () => {
+        const modalHtml = `
+          <div>
+            <p style="font-size:13px; color:var(--text); margin-bottom:16px;">
+              Are you sure you want to disable 2FA? This will make your admin account less secure.
+            </p>
+            <div class="form-group">
+              <label class="form-label">Password Confirmation</label>
+              <input type="password" class="form-input" id="disable-2fa-password" placeholder="Enter password to confirm" required>
+            </div>
+            <div id="disable-totp-error" style="color:var(--danger); font-size:12px; margin-top:8px; display:none;"></div>
+          </div>
+        `;
+
+        let modalController;
+
+        const handleDisable = async () => {
+          const password = document.getElementById('disable-2fa-password').value.trim();
+          const errEl = document.getElementById('disable-totp-error');
+
+          if (!password) {
+            showToast("Password is required", "warning");
+            return;
+          }
+
+          if (errEl) errEl.style.display = 'none';
+
+          const confirmBtn = document.querySelector('[data-modal-action="1"]');
+          if (confirmBtn) {
+            confirmBtn.disabled = true;
+            confirmBtn.innerHTML = '<span class="spinner spinner-sm"></span>';
+          }
+
+          const disableRes = await api('/api/admin/settings/2fa/disable', {
+            method: 'POST',
+            body: JSON.stringify({ password })
+          });
+
+          if (disableRes && disableRes.success) {
+            showToast("Two-factor authentication disabled successfully", "success");
+            state.totpRequired = false;
+            if (modalController) modalController.close();
+            renderSettings(); // Re-render page
+          } else {
+            if (errEl) {
+              errEl.textContent = disableRes?.error || "Incorrect password";
+              errEl.style.display = 'block';
+            }
+            if (confirmBtn) {
+              confirmBtn.disabled = false;
+              confirmBtn.innerHTML = 'Disable 2FA';
+            }
+          }
+        };
+
+        modalController = showModal(
+          "Disable Two-Factor Auth",
+          modalHtml,
+          [
+            { label: 'Cancel', class: 'btn-secondary', action: 'close' },
+            {
+              label: 'Disable 2FA',
+              class: 'btn-danger',
+              action: handleDisable
+            }
+          ]
+        );
+
+        setTimeout(() => {
+          const pwdInput = document.getElementById('disable-2fa-password');
+          if (pwdInput) pwdInput.focus();
+        }, 100);
+      });
+    }
   }
 
   // ── Modal System ─────────────────────────────────────────────────
@@ -1522,6 +2095,10 @@
 
   async function init() {
     console.log('[SecureChat Admin] Initializing...');
+
+    // Apply stored theme
+    const savedTheme = localStorage.getItem('securechat_theme') || 'bioluminescent';
+    document.body.className = 'theme-' + savedTheme;
 
     // 1. Check if first-run setup is needed
     const needsSetup = await checkSetup();

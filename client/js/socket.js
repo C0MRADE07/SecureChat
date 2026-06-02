@@ -6,9 +6,9 @@
 window.ChatSocket = (function() {
   let socket = null;
 
-  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
-    : 'https://securechat-7t0n.onrender.com';
+  const BACKEND_URL = (window.location.port === '3000' || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'))
+    ? window.location.origin
+    : 'http://localhost:3000';
 
   function connect(userId) {
     if (socket && socket.connected) return;
@@ -34,6 +34,20 @@ window.ChatSocket = (function() {
     socket.on('connect_error', (err) => {
       console.error('[Socket] Connection error:', err.message);
       AppState.set('connected', false);
+      if (err.message === 'User is banned') {
+        AppState.set('banned', true);
+        AppState.set('banReason', err.data?.reason || 'Violating platform guidelines.');
+        Router.navigate('banned');
+        disconnect();
+      }
+    });
+
+    socket.on('server:banned', (data) => {
+      console.warn('[Socket] Account restricted by administrator:', data.reason);
+      AppState.set('banned', true);
+      AppState.set('banReason', data.reason);
+      Router.navigate('banned');
+      disconnect();
     });
 
     // ── Room Events ──

@@ -26,6 +26,136 @@
   --radius-lg: 20px;
 }
 
+/* ── Soft Glass Theme ── */
+body.theme-softglass {
+  --bg: #ececf3;
+  --bg-surface: rgba(255, 255, 255, 0.45);
+  --bg-surface-2: rgba(255, 255, 255, 0.65);
+  --accent: #4f46e5;
+  --accent-dim: #3730a3;
+  --accent-glow: rgba(79, 70, 229, 0.08);
+  --violet: #7c3aed;
+  --violet-dim: #6d28d9;
+  --violet-glow: rgba(124, 58, 237, 0.1);
+  --text: #1e1b4b;
+  --text-dim: #4338ca;
+  --text-muted: #6b7280;
+  --border: rgba(255, 255, 255, 0.4);
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.1);
+  --warning: #f59e0b;
+  --success: #10b981;
+}
+
+body.theme-softglass::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle 350px at 10% 20%, rgba(79, 70, 229, 0.16) 0%, transparent 80%),
+    radial-gradient(circle 300px at 80% 80%, rgba(236, 72, 153, 0.16) 0%, transparent 80%),
+    radial-gradient(circle 250px at 50% 50%, rgba(245, 158, 11, 0.06) 0%, transparent 80%),
+    #ececf3;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Correct headings and global typography color */
+body.theme-softglass h1,
+body.theme-softglass h2,
+body.theme-softglass h3 {
+  color: #1e1b4b;
+}
+
+body.theme-softglass {
+  color: #2e2b5b;
+}
+
+/* Glassmorphism panel styling */
+body.theme-softglass .page,
+body.theme-softglass .stat-card,
+body.theme-softglass .modal-card,
+body.theme-softglass .theme-option,
+body.theme-softglass .table-wrapper,
+body.theme-softglass .onboarding-card,
+body.theme-softglass .welcome-card,
+body.theme-softglass .room-card,
+body.theme-softglass .chat-header,
+body.theme-softglass .chat-input-bar {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+}
+
+/* Buttons */
+body.theme-softglass .btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
+}
+body.theme-softglass .btn-primary:hover {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+}
+
+body.theme-softglass .btn-secondary {
+  background: rgba(255, 255, 255, 0.3);
+  color: #4f46e5;
+  border: 1px solid rgba(79, 70, 229, 0.3);
+}
+body.theme-softglass .btn-secondary:hover {
+  background: rgba(79, 70, 229, 0.08);
+  border-color: #4f46e5;
+}
+
+body.theme-softglass .btn-violet {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+}
+
+/* Message bubbles */
+body.theme-softglass .msg-sent {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(124, 58, 237, 0.1));
+  color: #1e1b4b;
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.05);
+}
+body.theme-softglass .msg-received {
+  background: rgba(255, 255, 255, 0.5);
+  color: #1e1b4b;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Input fields */
+body.theme-softglass .form-input,
+body.theme-softglass .input-field {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  color: #1e1b4b;
+}
+body.theme-softglass .form-input:focus,
+body.theme-softglass .input-field:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 16px rgba(79, 70, 229, 0.18);
+  background: rgba(255, 255, 255, 0.75);
+}
+body.theme-softglass .form-input::placeholder,
+body.theme-softglass .input-field::placeholder {
+  color: #8e9bb4;
+}
+
+/* Theme Option overrides */
+body.theme-softglass .theme-option {
+  border-color: rgba(79, 70, 229, 0.15);
+}
+body.theme-softglass .theme-option.active {
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.08);
+}
+
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

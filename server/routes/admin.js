@@ -5,13 +5,10 @@ import QRCode from 'qrcode';
 import os from 'os';
 import { verifyAdmin, generateTokens, verifyRefreshToken } from '../middleware/auth.js';
 import { adminLoginLimiter } from '../middleware/rateLimit.js';
-import { getAllUsers, getUser, banUser, unbanUser, renameUser, getBanLog } from '../db.js';
+import { getAllUsers, getUser, banUser, unbanUser, renameUser, getBanLog, getConfig, setConfig } from '../db.js';
 import * as rm from '../roomManager.js';
 
 const router = Router();
-
-// Store for admin TOTP secret (in production, use env var)
-let totpSecret = process.env.ADMIN_TOTP_SECRET || null;
 
 // ── POST /api/admin/login ──
 router.post('/login', adminLoginLimiter, async (req, res) => {
@@ -19,28 +16,40 @@ router.post('/login', adminLoginLimiter, async (req, res) => {
     const { password, totpCode, totp } = req.body;
     const code = totpCode || totp;
 
-    if (!password || !code) {
-      return res.status(400).json({ error: 'Password and TOTP code are required.' });
+    const dbPasswordHash = await getConfig('admin_password_hash');
+    const totpEnabled = (await getConfig('admin_totp_enabled')) === '1';
+    const dbTotpSecret = await getConfig('admin_totp_secret');
+
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required.' });
+    }
+
+    if (totpEnabled && !code) {
+      return res.status(400).json({ error: 'TOTP code is required.' });
     }
 
     // Verify password
-    const adminHash = process.env.ADMIN_PASSWORD_HASH;
-    if (!adminHash) {
-      // Dev mode: accept 'admin' as password
-      if (password !== 'admin') {
-        return res.status(401).json({ error: 'Invalid credentials.' });
-      }
+    let valid = false;
+    if (dbPasswordHash) {
+      valid = await bcrypt.compare(password, dbPasswordHash);
     } else {
-      const valid = await bcrypt.compare(password, adminHash);
-      if (!valid) {
-        return res.status(401).json({ error: 'Invalid credentials.' });
+      // Fallback to env or default 'admin'
+      const adminEnvHash = process.env.ADMIN_PASSWORD_HASH;
+      if (adminEnvHash) {
+        valid = await bcrypt.compare(password, adminEnvHash);
+      } else {
+        valid = (password === 'admin');
       }
     }
 
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid credentials.' });
+    }
+
     // Verify TOTP
-    if (totpSecret) {
+    if (totpEnabled && dbTotpSecret) {
       const verified = speakeasy.totp.verify({
-        secret: totpSecret,
+        secret: dbTotpSecret,
         encoding: 'base32',
         token: code,
         window: 1,
@@ -49,7 +58,6 @@ router.post('/login', adminLoginLimiter, async (req, res) => {
         return res.status(401).json({ error: 'Invalid 2FA code.' });
       }
     }
-    // If no TOTP secret set (dev mode), skip TOTP verification
 
     const { accessToken, refreshToken } = generateTokens();
 
@@ -97,31 +105,13 @@ router.post('/refresh', (req, res) => {
   }
 });
 
-// ── GET /api/admin/setup — First-run 2FA setup ──
-router.get('/setup', (req, res) => {
+// ── GET /api/admin/setup — Setup status & Dynamic 2FA check ──
+router.get('/setup', async (req, res) => {
   try {
-    // Only allow if no TOTP secret is configured
-    if (totpSecret) {
-      return res.json({ configured: true });
-    }
-
-    const secret = speakeasy.generateSecret({
-      name: 'SecureChat Admin',
-      issuer: 'SecureChat',
-    });
-
-    // Store the secret
-    totpSecret = secret.base32;
-
-    QRCode.toDataURL(secret.otpauth_url, (err, dataUrl) => {
-      if (err) {
-        return res.status(500).json({ error: 'Failed to generate QR code.' });
-      }
-      res.json({
-        configured: false,
-        secret: secret.base32,
-        qrCode: dataUrl,
-      });
+    const totpEnabled = (await getConfig('admin_totp_enabled')) === '1';
+    res.json({
+      configured: true,
+      totpRequired: totpEnabled
     });
   } catch (err) {
     console.error('Setup error:', err);
@@ -129,40 +119,141 @@ router.get('/setup', (req, res) => {
   }
 });
 
-// ── POST /api/admin/setup/verify — Verify first-run 2FA ──
+// ── POST /api/admin/setup/verify — Verify first-run 2FA (Legacy) ──
 router.post('/setup/verify', (req, res) => {
   try {
-    const { totp } = req.body;
-    if (!totp) {
-      return res.status(400).json({ error: 'Verification code is required.' });
-    }
-
-    if (!totpSecret) {
-      return res.status(400).json({ error: 'TOTP setup not initialized. Request GET /setup first.' });
-    }
-
-    const verified = speakeasy.totp.verify({
-      secret: totpSecret,
-      encoding: 'base32',
-      token: totp,
-      window: 1,
-    });
-
-    if (!verified) {
-      return res.status(400).json({ error: 'Invalid verification code. Please check your phone clock.' });
-    }
-
     res.json({ success: true });
   } catch (err) {
-    console.error('Setup verify error:', err);
     res.status(500).json({ error: 'Verification failed.' });
   }
 });
 
-// ── GET /api/admin/users ──
-router.get('/users', verifyAdmin, (req, res) => {
+// ── POST /api/admin/settings/password ──
+router.post('/settings/password', verifyAdmin, async (req, res) => {
   try {
-    const users = getAllUsers();
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required.' });
+    }
+
+    const currentHash = await getConfig('admin_password_hash');
+    let valid = false;
+    if (currentHash) {
+      valid = await bcrypt.compare(currentPassword, currentHash);
+    } else {
+      const adminEnvHash = process.env.ADMIN_PASSWORD_HASH;
+      if (adminEnvHash) {
+        valid = await bcrypt.compare(currentPassword, adminEnvHash);
+      } else {
+        valid = (currentPassword === 'admin');
+      }
+    }
+
+    if (!valid) {
+      return res.status(400).json({ error: 'Incorrect current password.' });
+    }
+
+    if (newPassword.length < 5) {
+      return res.status(400).json({ error: 'New password must be at least 5 characters long.' });
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    await setConfig('admin_password_hash', newHash);
+    res.json({ success: true, message: 'Password updated successfully.' });
+  } catch (err) {
+    console.error('Change password error:', err);
+    res.status(500).json({ error: 'Failed to change password.' });
+  }
+});
+
+// ── GET /api/admin/settings/2fa/setup ──
+router.get('/settings/2fa/setup', verifyAdmin, (req, res) => {
+  try {
+    const secret = speakeasy.generateSecret({
+      name: 'SecureChat Admin',
+      issuer: 'SecureChat',
+    });
+
+    QRCode.toDataURL(secret.otpauth_url, (err, dataUrl) => {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to generate QR code.' });
+      }
+      res.json({
+        secret: secret.base32,
+        qrCode: dataUrl,
+      });
+    });
+  } catch (err) {
+    console.error('2FA setup error:', err);
+    res.status(500).json({ error: 'Failed to initialize 2FA setup.' });
+  }
+});
+
+// ── POST /api/admin/settings/2fa/enable ──
+router.post('/settings/2fa/enable', verifyAdmin, async (req, res) => {
+  try {
+    const { secret, totpCode } = req.body;
+    if (!secret || !totpCode) {
+      return res.status(400).json({ error: 'Secret and verification code are required.' });
+    }
+
+    const verified = speakeasy.totp.verify({
+      secret: secret,
+      encoding: 'base32',
+      token: totpCode,
+      window: 1,
+    });
+
+    if (!verified) {
+      return res.status(400).json({ error: 'Invalid verification code. Please check your authenticator app.' });
+    }
+
+    await setConfig('admin_totp_secret', secret);
+    await setConfig('admin_totp_enabled', '1');
+    res.json({ success: true, message: '2FA enabled successfully.' });
+  } catch (err) {
+    console.error('2FA enable error:', err);
+    res.status(500).json({ error: 'Failed to enable 2FA.' });
+  }
+});
+
+// ── POST /api/admin/settings/2fa/disable ──
+router.post('/settings/2fa/disable', verifyAdmin, async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required to disable 2FA.' });
+    }
+
+    const currentHash = await getConfig('admin_password_hash');
+    let valid = false;
+    if (currentHash) {
+      valid = await bcrypt.compare(password, currentHash);
+    } else {
+      const adminEnvHash = process.env.ADMIN_PASSWORD_HASH;
+      if (adminEnvHash) {
+        valid = await bcrypt.compare(password, adminEnvHash);
+      } else {
+        valid = (password === 'admin');
+      }
+    }
+
+    if (!valid) {
+      return res.status(400).json({ error: 'Incorrect password.' });
+    }
+
+    await setConfig('admin_totp_enabled', '0');
+    res.json({ success: true, message: '2FA disabled successfully.' });
+  } catch (err) {
+    console.error('2FA disable error:', err);
+    res.status(500).json({ error: 'Failed to disable 2FA.' });
+  }
+});
+
+// ── GET /api/admin/users ──
+router.get('/users', verifyAdmin, async (req, res) => {
+  try {
+    const users = await getAllUsers();
     res.json({ users });
   } catch (err) {
     console.error('Get users error:', err);
@@ -171,15 +262,30 @@ router.get('/users', verifyAdmin, (req, res) => {
 });
 
 // ── PUT /api/admin/users/:uuid/ban ──
-router.put('/users/:uuid/ban', verifyAdmin, (req, res) => {
+router.put('/users/:uuid/ban', verifyAdmin, async (req, res) => {
   try {
     const { uuid } = req.params;
     const { reason, adminNote } = req.body;
 
-    const user = getUser(uuid);
+    const user = await getUser(uuid);
     if (!user) return res.status(404).json({ error: 'User not found.' });
 
-    banUser(uuid, reason || 'No reason provided', adminNote || '');
+    await banUser(uuid, reason || 'No reason provided', adminNote || '');
+
+    // Disconnect user's active sockets immediately
+    const io = router.io;
+    if (io) {
+      for (const [id, socket] of io.sockets.sockets) {
+        if (socket.userId === uuid) {
+          socket.emit('server:banned', { reason: reason || 'No reason provided' });
+          socket.disconnect(true);
+        }
+      }
+    }
+
+    // Clean up room members/pending requests and notify room members
+    rm.cleanupBannedUser(uuid, io);
+
     res.json({ success: true, message: `${user.username} has been banned.` });
   } catch (err) {
     console.error('Ban error:', err);
@@ -188,15 +294,15 @@ router.put('/users/:uuid/ban', verifyAdmin, (req, res) => {
 });
 
 // ── PUT /api/admin/users/:uuid/unban ──
-router.put('/users/:uuid/unban', verifyAdmin, (req, res) => {
+router.put('/users/:uuid/unban', verifyAdmin, async (req, res) => {
   try {
     const { uuid } = req.params;
     const { adminNote } = req.body;
 
-    const user = getUser(uuid);
+    const user = await getUser(uuid);
     if (!user) return res.status(404).json({ error: 'User not found.' });
 
-    unbanUser(uuid, adminNote || '');
+    await unbanUser(uuid, adminNote || '');
     res.json({ success: true, message: `${user.username} has been unbanned.` });
   } catch (err) {
     console.error('Unban error:', err);
@@ -205,22 +311,22 @@ router.put('/users/:uuid/unban', verifyAdmin, (req, res) => {
 });
 
 // ── PUT /api/admin/users/:uuid/rename ──
-router.put('/users/:uuid/rename', verifyAdmin, (req, res) => {
+router.put('/users/:uuid/rename', verifyAdmin, async (req, res) => {
   try {
     const { uuid } = req.params;
-    const { newUsername } = req.body;
+    const newUsername = req.body.newUsername || req.body.username;
 
     if (!newUsername || !/^[a-zA-Z0-9_]{3,20}$/.test(newUsername)) {
       return res.status(400).json({ error: 'Invalid username format.' });
     }
 
-    const user = getUser(uuid);
+    const user = await getUser(uuid);
     if (!user) return res.status(404).json({ error: 'User not found.' });
 
-    renameUser(uuid, newUsername);
+    await renameUser(uuid, newUsername);
     res.json({ success: true, message: `Renamed to ${newUsername}.` });
   } catch (err) {
-    if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+    if (err.code === 'SQLITE_CONSTRAINT_UNIQUE' || err.message?.includes('UNIQUE')) {
       return res.status(409).json({ error: 'Username already taken.' });
     }
     console.error('Rename error:', err);
@@ -304,10 +410,10 @@ router.post('/broadcast', verifyAdmin, (req, res) => {
 });
 
 // ── GET /api/admin/ban-log ──
-router.get('/ban-log', verifyAdmin, (req, res) => {
+router.get('/ban-log', verifyAdmin, async (req, res) => {
   try {
-    const log = getBanLog();
-    res.json({ log });
+    const log = await getBanLog();
+    res.json({ logs: log, log });
   } catch (err) {
     console.error('Ban log error:', err);
     res.status(500).json({ error: 'Failed to fetch ban log.' });

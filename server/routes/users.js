@@ -5,7 +5,7 @@ import { registerLimiter } from '../middleware/rateLimit.js';
 const router = Router();
 
 // POST /api/users/register — Register username + UUID
-router.post('/register', registerLimiter, (req, res) => {
+router.post('/register', registerLimiter, async (req, res) => {
   try {
     const { uuid, username } = req.body;
 
@@ -20,18 +20,18 @@ router.post('/register', registerLimiter, (req, res) => {
     }
 
     // Check if UUID already registered
-    const existingUser = getUser(uuid);
+    const existingUser = await getUser(uuid);
     if (existingUser) {
       return res.status(409).json({ error: 'This device is already registered.', username: existingUser.username });
     }
 
     // Check if username is taken
-    const nameTaken = getUserByUsername(username);
+    const nameTaken = await getUserByUsername(username);
     if (nameTaken) {
       return res.status(409).json({ error: 'Username is already taken.' });
     }
 
-    createUser(uuid, username);
+    await createUser(uuid, username);
     res.json({ success: true, username });
   } catch (err) {
     console.error('Register error:', err);
@@ -40,10 +40,10 @@ router.post('/register', registerLimiter, (req, res) => {
 });
 
 // GET /api/users/check/:username — Check if username is available
-router.get('/check/:username', (req, res) => {
+router.get('/check/:username', async (req, res) => {
   try {
     const { username } = req.params;
-    const existing = getUserByUsername(username);
+    const existing = await getUserByUsername(username);
     res.json({ available: !existing });
   } catch (err) {
     console.error('Check username error:', err);

@@ -6,7 +6,7 @@ import { createRoomLimiter, joinRoomLimiter } from '../middleware/rateLimit.js';
 const router = Router();
 
 // POST /api/rooms/create — Create a new room
-router.post('/create', createRoomLimiter, (req, res) => {
+router.post('/create', createRoomLimiter, async (req, res) => {
   try {
     const { userId, name, passwordHash, publicKey } = req.body;
 
@@ -20,11 +20,27 @@ router.post('/create', createRoomLimiter, (req, res) => {
     }
 
     // Verify user exists and not banned
-    const user = getUser(userId);
+    const user = await getUser(userId);
     if (!user) return res.status(404).json({ error: 'User not found.' });
     if (user.banned) return res.status(403).json({ error: 'You are banned.' });
 
     const room = rm.createRoom(name, passwordHash, userId, user.username, publicKey || '', '');
+    
+    // Broadcast notification to all active admin sockets
+    const io = router.io;
+    if (io) {
+      for (const [id, socket] of io.sockets.sockets) {
+        if (socket.isAdmin) {
+          socket.emit('admin:room-created', {
+            id: room.id,
+            name: room.name,
+            code: room.roomCode,
+            ownerUsername: user.username,
+            createdAt: room.createdAt,
+          });
+        }
+      }
+    }
     
     res.json({
       success: true,
@@ -39,7 +55,7 @@ router.post('/create', createRoomLimiter, (req, res) => {
 });
 
 // POST /api/rooms/join — Request to join a room
-router.post('/join', joinRoomLimiter, (req, res) => {
+router.post('/join', joinRoomLimiter, async (req, res) => {
   try {
     const { userId, roomCode, passwordHash, publicKey } = req.body;
 
@@ -48,7 +64,7 @@ router.post('/join', joinRoomLimiter, (req, res) => {
     }
 
     // Verify user
-    const user = getUser(userId);
+    const user = await getUser(userId);
     if (!user) return res.status(404).json({ error: 'User not found.' });
     if (user.banned) return res.status(403).json({ error: 'You are banned.' });
 
@@ -100,7 +116,7 @@ router.get('/:id/keys', (req, res) => {
     const room = rm.getRoom(id);
     if (!room) return res.status(404).json({ error: 'Room not found.' });
 
-    const members = rm.getMembersArray(id);
+    const members = rm.getEncryptionKeys(id);
     res.json({ members });
   } catch (err) {
     console.error('Get keys error:', err);

@@ -24,6 +24,7 @@ import pushRouter from './routes/push.js';
 import { generalLimiter } from './middleware/rateLimit.js';
 import setupSocketHandlers from './socket/handlers.js';
 import { getRoomCount, getOnlineUserCount } from './roomManager.js';
+import { initDb } from './db.js';
 
 const app = express();
 const server = createServer(app);
@@ -57,6 +58,7 @@ app.use('/api/push', pushRouter);
 
 // Give admin routes access to io for broadcasting
 adminRouter.io = io;
+roomsRouter.io = io;
 
 // ── Health Check ──
 app.get('/health', (req, res) => {
@@ -86,6 +88,7 @@ setupSocketHandlers(io);
 
 // ── Start Server ──
 const PORT = process.env.PORT || 3000;
+await initDb();
 server.listen(PORT, () => {
   console.log('');
   console.log('  ╔═══════════════════════════════════════╗');

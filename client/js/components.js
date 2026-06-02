@@ -1,7 +1,30 @@
-// ═══════════════════════════════════════════
-// SecureChat — UI Components
-// Reusable DOM element creators
-// ═══════════════════════════════════════════
+window.SecureIcons = {
+  getSvg(name, color = 'currentColor', size = '1.2em') {
+    const paths = {
+      lock: '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>',
+      users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
+      settings: '<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>',
+      eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>',
+      'eye-off': '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>',
+      chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>',
+      key: '<path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>',
+      door: '<path d="M15 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line>',
+      ban: '<circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>',
+      dashboard: '<rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect>',
+      broadcast: '<path d="M12 19V5H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7z"></path><path d="M12 5h3l6 4v6l-6 4h-3"></path><line x1="23" y1="12" x2="21" y2="12"></line><line x1="3" y1="19" x2="6" y2="21"></line>',
+      clipboard: '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>',
+      shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>',
+      'arrow-right': '<line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>',
+      'arrow-left': '<line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>',
+      clock: '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>',
+      send: '<line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>',
+      plus: '<line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line>',
+      alert: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
+    };
+    const p = paths[name] || '';
+    return `<svg class="secure-icon icon-${name}" viewBox="0 0 24 24" width="${size}" height="${size}" stroke="${color}" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; pointer-events:none; transition: filter 0.2s ease;">${p}</svg>`;
+  }
+};
 
 window.Components = (function() {
 
@@ -42,10 +65,12 @@ window.Components = (function() {
       const toggle = document.createElement('button');
       toggle.type = 'button';
       toggle.className = 'password-toggle';
-      toggle.textContent = '👁';
+      toggle.innerHTML = SecureIcons.getSvg('eye', 'var(--text-dim)', '16px');
       toggle.addEventListener('click', () => {
         inp.type = inp.type === 'password' ? 'text' : 'password';
-        toggle.textContent = inp.type === 'password' ? '👁' : '🙈';
+        toggle.innerHTML = inp.type === 'password' 
+          ? SecureIcons.getSvg('eye', 'var(--text-dim)', '16px') 
+          : SecureIcons.getSvg('eye-off', 'var(--text-dim)', '16px');
       });
 
       wrapper.appendChild(inp);
@@ -102,7 +127,7 @@ window.Components = (function() {
     meta.className = msg.status === 'queued' ? 'msg-queued-badge' : 'msg-meta';
 
     if (msg.status === 'queued') {
-      meta.textContent = '⏳ Queued';
+      meta.innerHTML = SecureIcons.getSvg('clock', 'var(--text-dim)', '12px') + ' Queued';
     } else {
       const time = new Date(msg.timestamp);
       const timeStr = time.getHours().toString().padStart(2, '0') + ':' + time.getMinutes().toString().padStart(2, '0');
@@ -178,7 +203,7 @@ window.Components = (function() {
 
     const meta = document.createElement('div');
     meta.className = 'room-card-meta';
-    meta.textContent = '🔑 ' + (room.code || room.roomCode || '—');
+    meta.innerHTML = SecureIcons.getSvg('key', 'var(--accent)', '12px') + ' ' + (room.code || room.roomCode || '—');
     card.appendChild(meta);
 
     return card;
@@ -281,18 +306,28 @@ window.Components = (function() {
   function encryptionBadge() {
     const badge = document.createElement('div');
     badge.className = 'encryption-badge';
-    badge.textContent = '🔐 E2E Encrypted';
+    badge.innerHTML = SecureIcons.getSvg('lock', 'var(--accent)', '12px') + ' E2E Encrypted';
     return badge;
   }
 
   // ── Empty State ──
-  function emptyState(icon, text) {
+  function emptyState(iconName, text) {
     const container = document.createElement('div');
     container.className = 'empty-state';
 
     const ic = document.createElement('div');
     ic.className = 'empty-state-icon';
-    ic.textContent = icon || '💬';
+    if (iconName && iconName.includes('<svg')) {
+      ic.innerHTML = iconName;
+    } else if (iconName === '💬' || iconName === 'chat') {
+      ic.innerHTML = SecureIcons.getSvg('chat', 'var(--text-dim)', '48px');
+    } else if (iconName === '📋' || iconName === 'log') {
+      ic.innerHTML = SecureIcons.getSvg('clipboard', 'var(--text-dim)', '48px');
+    } else if (iconName) {
+      ic.innerHTML = SecureIcons.getSvg(iconName, 'var(--text-dim)', '48px');
+    } else {
+      ic.innerHTML = SecureIcons.getSvg('chat', 'var(--text-dim)', '48px');
+    }
     container.appendChild(ic);
 
     const txt = document.createElement('div');
@@ -311,7 +346,7 @@ window.Components = (function() {
 
     const icon = document.createElement('div');
     icon.className = 'join-request-icon';
-    icon.textContent = '🚪';
+    icon.innerHTML = SecureIcons.getSvg('door', 'var(--accent)', '24px');
     popup.appendChild(icon);
 
     const title = document.createElement('div');
@@ -369,7 +404,11 @@ window.Components = (function() {
       actions.forEach(a => {
         const btn = document.createElement('button');
         btn.className = 'icon-btn' + (a.danger ? ' icon-btn-danger' : '');
-        btn.textContent = a.icon;
+        if (a.icon && a.icon.includes('<svg')) {
+          btn.innerHTML = a.icon;
+        } else {
+          btn.textContent = a.icon || '';
+        }
         btn.title = a.title || '';
         if (a.onClick) btn.addEventListener('click', a.onClick);
         actionsDiv.appendChild(btn);
@@ -384,7 +423,7 @@ window.Components = (function() {
   function backButton(onClick) {
     const btn = document.createElement('button');
     btn.className = 'back-btn';
-    btn.innerHTML = '← Back';
+    btn.innerHTML = SecureIcons.getSvg('arrow-left', 'var(--accent)', '14px') + ' Back';
     btn.addEventListener('click', onClick || (() => Router.navigate('home')));
     return btn;
   }
