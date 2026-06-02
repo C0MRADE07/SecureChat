@@ -11,9 +11,22 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <!-- Static Bioluminescent Splash Screen -->
+    <div class="splash-overlay" id="splash-screen">
+      <div class="splash-logo">🔐</div>
+      <h1 class="splash-title">Secure<span>Chat</span></h1>
+      <div class="splash-subtitle">END-TO-END ENCRYPTED MESSAGING</div>
+      <div class="splash-status-box">
+        <div class="splash-progress-track">
+          <div class="splash-progress-bar" id="splash-progress"></div>
+        </div>
+        <div class="splash-status-text" id="splash-status">Connecting to secure network...</div>
+      </div>
+    </div>
+  </div>
 
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/state.js"></script>
   <script src="js/crypto.js"></script>

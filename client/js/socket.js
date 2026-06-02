@@ -6,10 +6,14 @@
 window.ChatSocket = (function() {
   let socket = null;
 
+  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
+    : 'https://securechat-7t0n.onrender.com';
+
   function connect(userId) {
     if (socket && socket.connected) return;
 
-    socket = io(window.location.origin, {
+    socket = io(BACKEND_URL, {
       auth: { userId },
       reconnection: true,
       reconnectionDelay: 1000,

@@ -1,0 +1,13 @@
+{
+  "name": "securechat-root",
+  "version": "1.0.0",
+  "description": "SecureChat root proxy runner for Render deployment",
+  "type": "module",
+  "scripts": {
+    "build": "npm install --prefix server",
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

@@ -10,9 +10,14 @@ window.Pages = (function() {
     app().innerHTML = '';
   }
 
+  // ── Dynamic Backend URL Detection ──
+  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
+    : 'https://securechat-7t0n.onrender.com';
+
   // ── API Helper ──
   async function api(path, opts = {}) {
-    const res = await fetch(path, {
+    const res = await fetch(BACKEND_URL + path, {
       headers: { 'Content-Type': 'application/json', ...opts.headers },
       ...opts,
     });

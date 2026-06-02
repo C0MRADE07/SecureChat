@@ -6,6 +6,10 @@
 (function () {
   'use strict';
 
+  const BACKEND_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? (window.location.port === '3000' ? window.location.origin : 'http://localhost:3000')
+    : 'https://securechat-7t0n.onrender.com';
+
   // ── State ────────────────────────────────────────────────────────
   const state = {
     authenticated: false,
@@ -43,7 +47,7 @@
       headers['Authorization'] = `Bearer ${state.accessToken}`;
     }
     try {
-      const res = await fetch(path, {
+      const res = await fetch(BACKEND_URL + path, {
         ...options,
         headers: { ...headers, ...options.headers },
         credentials: 'include'
@@ -55,7 +59,7 @@
         if (refreshed) {
           // Retry original request with new token
           headers['Authorization'] = `Bearer ${state.accessToken}`;
-          const retry = await fetch(path, {
+          const retry = await fetch(BACKEND_URL + path, {
             ...options,
             headers: { ...headers, ...options.headers },
             credentials: 'include'
@@ -82,7 +86,7 @@
    */
   async function refreshToken() {
     try {
-      const res = await fetch('/api/admin/refresh', {
+      const res = await fetch(BACKEND_URL + '/api/admin/refresh', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
@@ -164,7 +168,7 @@
    */
   async function checkSetup() {
     try {
-      const res = await fetch('/api/admin/setup', { credentials: 'include' });
+      const res = await fetch(BACKEND_URL + '/api/admin/setup', { credentials: 'include' });
       if (!res.ok) return false;
       const data = await res.json();
       if (data && data.qrCode) {
@@ -183,7 +187,7 @@
   function connectSocket() {
     if (state.socket) state.socket.disconnect();
 
-    state.socket = io(window.location.origin, {
+    state.socket = io(BACKEND_URL, {
       auth: {
         admin: true,
         token: state.accessToken
@@ -649,7 +653,7 @@
     btn.innerHTML = '<span class="spinner spinner-sm"></span> Verifying...';
 
     try {
-      const res = await fetch('/api/admin/setup/verify', {
+      const res = await fetch(BACKEND_URL + '/api/admin/setup/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
