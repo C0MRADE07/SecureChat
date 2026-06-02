@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureChat — Screen Wireframes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&display=swap');
+
+  :root {
+    --navy: #050d1a;
+    --navy2: #081628;
+    --navy3: #0d2040;
+    --teal: #00f5d4;
+    --teal-dim: #00c4aa;
+    --teal-glow: rgba(0,245,212,0.12);
+    --violet: #7b2ff7;
+    --violet-dim: #5a22b5;
+    --violet-glow: rgba(123,47,247,0.15);
+    --text: #c8e6f5;
+    --text-dim: #5a7a96;
+    --border: rgba(0,245,212,0.15);
+    --glass: rgba(8,22,40,0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    font-family: 'Fira Code', monospace;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 20%, rgba(0,245,212,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 85% 70%, rgba(123,47,247,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 50% 90%, rgba(0,245,212,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 32px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal-glow);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .header-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--teal);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--teal);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+
+  h1 span { color: var(--teal); }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Screens grid */
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 36px;
+    margin-bottom: 72px;
+  }
+
+  /* Phone frame */
+  .phone-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .phone-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal-dim);
+  }
+
+  .phone-sublabel {
+    font-size: 10px;
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.5;
+    max-width: 200px;
+  }
+
+  .phone {
+    width: 220px;
+    height: 440px;
+    background: var(--navy2);
+    border-radius: 36px;
+    border: 1.5px solid var(--border);
+    box-shadow:
+      0 0 0 6px rgba(0,245,212,0.03),
+      0 0 40px rgba(0,245,212,0.06),
+      0 24px 48px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .phone:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 0 0 6px rgba(0,245,212,0.05),
+      0 0 60px rgba(0,245,212,0.12),
+      0 32px 64px rgba(0,0,0,0.6);
+  }
+
+  /* Notch */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 24px;
+    background: var(--navy);
+    border-radius: 0 0 16px 16px;
+    z-index: 10;
+  }
+
+  .phone-inner {
+    position: absolute;
+    inset: 0;
+    padding: 30px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 4px 10px;
+    font-size: 9px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .status-dots {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+  }
+
+  .status-dots span {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--teal);
+    opacity: 0.7;
+  }
+
+  /* Shared UI elements */
+  .screen-bg-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .btn {
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    cursor: default;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+    color: var(--navy);
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(0,245,212,0.25);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--teal);
+  }
+
+  .btn-violet {
+    background: linear-gradient(135deg, var(--violet), var(--violet-dim));
+    color: #fff;
+    box-shadow: 0 0 20px rgba(123,47,247,0.3);
+  }
+
+  .btn-danger {
+    background: rgba(255,60,80,0.12);
+    border: 1px solid rgba(255,60,80,0.3);
+    color: #ff6080;
+  }
+
+  .input-field {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .input-label {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* ─── SCREEN 1: Welcome ─── */
+  .s1-glow1 {
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(0,245,212,0.12) 0%, transparent 70%);
+    top: 60px; left: 30px;
+  }
+
+  .s1-glow2 {
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(123,47,247,0.1) 0%, transparent 70%);
+    bottom: 80px; right: 20px;
+  }
+
+  .s1-logo {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--teal-glow), var(--violet-glow));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 14px;
+    box-shadow: 0 0 24px rgba(0,245,212,0.15);
+  }
+
+  .s1-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .s1-sub {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 28px;
+    letter-spacing: 0.08em;
+  }
+
+  .s1-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 10px 0;
+    position: relative;
+  }
+
+  .s1-divider span {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--navy2);
+    padding: 0 8px;
+    font-size: 8px;
+    color: var(--text-dim);
+  }
+
+  /* ─── SCREEN 2: Create Room ─── */
+  .screen-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .back-btn {
+    width: 22px; height: 22px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .screen-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ─── SCREEN 3: Waiting Room ─── */
+  .waiting-ring {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    border-top-color: var(--teal);
+    margin: 16px auto;
+    position: relative;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .waiting-ring::after {
+    content: '🔐';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    animation: spin-reverse 2s linear infinite;
+  }
+
+  @keyframes spin-reverse {
+    to { transform: rotate(-360deg); }
+  }
+
+  .waiting-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .waiting-sub {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .room-code-badge {
+    background: var(--teal-glow);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .room-code-label {
+    font-size: 8px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .room-code-val {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: 0.2em;
+  }
+
+  /* ─── SCREEN 4: Chat ─── */
+  .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    flex-shrink: 0;
+  }
+
+  .chat-room-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .online-badge {
+    font-size: 8px;
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .online-dot {
+    width: 5px; height: 5px;
+    background: var(--teal);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--teal);
+  }
+
+  .msg-bubble {
+    max-width: 75%;
+    border-radius: 12px;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+    font-size: 9px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .msg-out {
+    background: linear-gradient(135deg, rgba(0,245,212,0.15), rgba(0,245,212,0.08));
+    border: 1px solid rgba(0,245,212,0.2);
+    color: var(--text);
+    align-self: flex-end;
+    margin-left: auto;
+    box-shadow: 0 0 12px rgba(0,245,212,0.08);
+  }
+
+  .msg-in {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    align-self: flex-start;
+  }
+
+  .msg-meta {
+    font-size: 7px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    text-align: right;
+  }
+
+  .msg-sender {
+    font-size: 7px;
+    color: var(--teal-dim);
+    margin-bottom: 2px;
+  }
+
+  .msg-queued {
+    font-size: 7px;
+    color: #f5a623;
+    margin-top: 2px;
+    text-align: right;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-family: 'Fira Code', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  .send-btn {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    box-shadow: 0 0 12px rgba(0,245,212,0.3);
+    flex-shrink: 0;
+  }
+
+  /* ─── SCREEN 5: Promote Member ─── */
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: default;
+    transition: border-color 0.2s;
+  }
+
+  .member-row.selected {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+  }
+
+  .member-avatar {
+    width: 24px; height: 24px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--violet), var(--teal-dim));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  .member-name {
+    font-size: 10px;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .member-badge {
+    font-size: 7px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--violet-glow);
+    border: 1px solid rgba(123,47,247,0.3);
+    color: #b47aff;
+  }
+
+  .owner-badge {
+    font-size: 7px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0,245,212,0.1);
+    border: 1px solid rgba(0,245,212,0.25);
+    color: var(--teal);
+  }
+
+  .warning-box {
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 9px;
+    color: #f5a623;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  /* ─── SCREEN 6: Join Request Popup ─── */
+  .popup-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(5,13,26,0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+  }
+
+  .popup-card {
+    background: var(--navy3);
+    border: 1px solid rgba(0,245,212,0.25);
+    border-radius: 18px;
+    padding: 16px;
+    width: 180px;
+    box-shadow: 0 0 40px rgba(0,245,212,0.1), 0 20px 40px rgba(0,0,0,0.5);
+  }
+
+  .popup-icon {
+    width: 36px; height: 36px;
+    background: var(--teal-glow);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin: 0 auto 10px;
+  }
+
+  .popup-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .popup-sub {
+    font-size: 9px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .popup-actions {
+    display: flex;
+    gap: 6px;
+  }
+
+  .popup-actions .btn {
+    flex: 1;
+    padding: 8px;
+    font-size: 10px;
+  }
+
+  /* Admin section */
+  .admin-section {
+    margin-top: 16px;
+  }
+
+  .admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .admin-screen {
+    background: var(--navy2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .admin-screen:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 40px rgba(0,245,212,0.08), 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .admin-screen-header {
+    background: rgba(0,245,212,0.05);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .admin-traffic-lights {
+    display: flex;
+    gap: 5px;
+  }
+
+  .tl {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+  }
+
+  .tl-r { background: #ff5f57; }
+  .tl-y { background: #febc2e; }
+  .tl-g { background: #28c840; }
+
+  .admin-screen-title {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .admin-screen-body {
+    padding: 16px;
+  }
+
+  /* Stat cards */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--teal);
+    margin-bottom: 2px;
+  }
+
+  .stat-label {
+    font-size: 8px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mini-chart {
+    height: 36px;
+    background: rgba(0,245,212,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    padding: 4px 6px;
+    gap: 3px;
+    margin-bottom: 12px;
+  }
+
+  .bar {
+    flex: 1;
+    background: linear-gradient(180deg, var(--teal), rgba(0,245,212,0.3));
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  /* Room list admin */
+  .admin-room-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 6px;
+  }
+
+  .admin-room-name {
+    font-size: 10px;
+    color: var(--text);
+  }
+
+  .admin-room-count {
+    font-size: 8px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .admin-actions-row {
+    display: flex;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: default;
+  }
+
+  .icon-btn-teal {
+    background: var(--teal-glow);
+    border: 1px solid var(--border);
+  }
+
+  .icon-btn-red {
+    background: rgba(255,60,80,0.1);
+    border: 1px solid rgba(255,60,80,0.25);
+  }
+
+  /* User table */
+  .user-table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 60px;
+    padding: 6px 8px;
+    font-size: 8px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+
+  .user-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 60px;
+    padding: 7px 8px;
+    font-size: 9px;
+    border-radius: 7px;
+    margin-bottom: 3px;
+    align-items: center;
+  }
+
+  .user-row:nth-child(odd) { background: rgba(255,255,255,0.02); }
+
+  .user-status-active {
+    color: var(--teal);
+    font-size: 8px;
+  }
+
+  .user-status-banned {
+    color: #ff6080;
+    font-size: 8px;
+  }
+
+  /* Broadcast */
+  .broadcast-target {
+    background: rgba(123,47,247,0.08);
+    border: 1px solid rgba(123,47,247,0.2);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+
+  .broadcast-label {
+    font-size: 8px;
+    color: #b47aff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .broadcast-rooms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .room-tag {
+    background: var(--violet-glow);
+    border: 1px solid rgba(123,47,247,0.3);
+    border-radius: 5px;
+    padding: 2px 7px;
+    font-size: 8px;
+    color: #b47aff;
+  }
+
+  .room-tag.active {
+    background: rgba(123,47,247,0.25);
+    border-color: rgba(123,47,247,0.5);
+  }
+
+  .broadcast-textarea {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 9px;
+    color: var(--text-dim);
+    font-family: 'Fira Code', monospace;
+    height: 52px;
+    width: 100%;
+    resize: none;
+    margin-bottom: 8px;
+  }
+
+  /* Admin login */
+  .totp-row {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .totp-digit {
+    flex: 1;
+    height: 34px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teal);
+  }
+
+  .totp-digit.filled {
+    border-color: var(--teal);
+    background: var(--teal-glow);
+    box-shadow: 0 0 10px rgba(0,245,212,0.1);
+  }
+
+  .admin-logo {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, rgba(123,47,247,0.2), rgba(0,245,212,0.1));
+    border: 1px solid rgba(123,47,247,0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .screen-tag {
+    display: inline-block;
+    background: var(--violet-glow);
+    border: 1px solid rgba(123,47,247,0.25);
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 8px;
+    color: #b47aff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .mobile-tag {
+    background: var(--teal-glow);
+    border: 1px solid rgba(0,245,212,0.2);
+    color: var(--teal);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge">Wireframes v1.0</div>
+    <h1>Secure<span>Chat</span></h1>
+    <p class="subtitle">// all screens — bioluminescent ui — mobile + admin</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal);box-shadow:0 0 6px var(--teal)"></div> Mobile App</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--violet);box-shadow:0 0 6px var(--violet)"></div> Admin Dashboard</div>
+  </div>
+
+  <!-- ═══ MOBILE SCREENS ═══ -->
+  <div class="section-label">01 — Mobile Screens</div>
+  <div class="screens-grid">
+
+    <!-- Screen 1: Welcome -->
+    <div class="phone-wrap">
+      <div class="phone-label">Welcome</div>
+      <div class="phone">
+        <div class="screen-bg-glow s1-glow1"></div>
+        <div class="screen-bg-glow s1-glow2"></div>
+        <div class="phone-inner">
+          <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; justify-content:center; padding: 0 4px">
+            <div class="s1-logo">🔐</div>
+            <div class="s1-title">SecureChat</div>
+            <div class="s1-sub">// end-to-end encrypted</div>
+            <div class="btn btn-primary" style="margin-bottom:8px">+ Create Room</div>
+            <div class="s1-divider"><span>or</span></div>
+            <div style="margin-top:10px" class="btn btn-secondary">→ Join Room</div>
+          </div>
+          <div style="text-align:center; font-size:8px; color:var(--text-dim); padding:8px 0">v1.0.0 · encrypted · private</div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Entry point. Create or join a room.</div>
+    </div>
+
+    <!-- Screen 2: Create Room -->
+    <div class="phone-wrap">
+      <div class="phone-label">Create Room</div>
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="status-bar"><span>9:41</span><div class="status-dots"><span></span><span></span><span></span></div></div>
+          <div class="screen-header">
+            <div class="back-btn">←</div>
+            <div class="screen-title">Create Room</div>
+          </div>
+          <div class="input-label">Room Name</div>
+          <div class="input-field">Alpha Team</div>
+          <div class="input-label">Password</div>
+          <div class="input-field" style="letter-spacing:0.2em; color:var(--teal)">••••••••</div>
+          <div class="input-label">Confirm Password</div>
+          <div class="input-field" style="letter-spacing:0.2em; color:var(--teal)">••••••••</div>
+          <div style="background:var(--teal-glow); border:1px solid var(--border); border-radius:10px; padding:8px 10px; margin-bottom:12px">
+            <div style="font-size:8px; color:var(--text-dim); margin-bottom:6px; letter-spacing:0.08em; text-transform:uppercase">Room Code (auto)</div>
+            <div style="font-size:15px; color:var(--teal); letter-spacing:0.25em; font-weight:500">XK-4821</div>
+            <div style="font-size:8px; color:var(--text-dim); margin-top:3px">Share this with your buddies</div>
+          </div>
+          <div class="btn btn-primary">Create & Enter →</div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Set room name, password. Auto-generates a shareable room code.</div>
+    </div>
+
+    <!-- Screen 3: Join Room -->
+    <div class="phone-wrap">
+      <div class="phone-label">Join Room</div>
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="status-bar"><span>9:41</span><div class="status-dots"><span></span><span></span><span></span></div></div>
+          <div class="screen-header">
+            <div class="back-btn">←</div>
+            <div class="screen-title">Join Room</div>
+          </div>
+          <div class="input-label">Room Code</div>
+          <div class="input-field" style="color:var(--teal); letter-spacing:0.15em">XK-4821</div>
+          <div class="input-label">Password</div>
+          <div class="input-field" style="letter-spacing:0.2em; color:var(--teal)">••••••••</div>
+          <div style="background:rgba(0,245,212,0.04); border:1px solid var(--border); border-radius:10px; padding:10px; margin-bottom:14px">
+            <div style="font-size:8px; color:var(--text-dim); line-height:1.6">Correct code + password = instant access. No approval needed.</div>
+          </div>
+          <div class="btn btn-primary">Join Room →</div>
+          <div style="text-align:center; font-size:8px; color:var(--text-dim); margin-top:10px">Wrong password? You'll be denied.</div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Code + password = direct entry. No waiting room.</div>
+    </div>
+
+    <!-- Screen 4: Waiting Room (Admin join request) -->
+    <div class="phone-wrap">
+      <div class="phone-label">Waiting Room</div>
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="status-bar"><span>9:41</span><div class="status-dots"><span></span><span></span><span></span></div></div>
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; padding:10px">
+            <div style="font-size:8px; color:var(--violet); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px; background:var(--violet-glow); padding:3px 10px; border-radius:20px; border:1px solid rgba(123,47,247,0.25)">Admin Request</div>
+            <div class="waiting-ring"></div>
+            <div class="waiting-title">Awaiting Approval</div>
+            <div class="waiting-sub">Your join request has been sent to the room owners. Waiting for approval…</div>
+            <div class="room-code-badge" style="width:100%">
+              <div class="room-code-label">Requested Room</div>
+              <div class="room-code-val">XK-4821</div>
+            </div>
+            <div class="btn btn-danger" style="width:100%; padding:8px; font-size:10px">Cancel Request</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Only shown when admin requests to join without a password.</div>
+    </div>
+
+    <!-- Screen 5: Chat -->
+    <div class="phone-wrap">
+      <div class="phone-label">Chat</div>
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="status-bar"><span>9:41</span><div class="status-dots"><span></span><span></span><span></span></div></div>
+          <div class="chat-header">
+            <div>
+              <div class="chat-room-name">Alpha Team</div>
+              <div class="online-badge"><div class="online-dot"></div>4 online</div>
+            </div>
+            <div style="display:flex; gap:5px">
+              <div class="icon-btn icon-btn-teal" title="Members">👥</div>
+              <div class="icon-btn icon-btn-red" title="Leave">→</div>
+            </div>
+          </div>
+          <div class="chat-messages">
+            <div class="msg-bubble msg-in">
+              <div class="msg-sender">@jake</div>
+              hey is this encrypted? 👀
+              <div class="msg-meta">09:32</div>
+            </div>
+            <div class="msg-bubble msg-out">
+              yes, AES-256 🔐
+              <div class="msg-meta">09:33 ✓✓</div>
+            </div>
+            <div class="msg-bubble msg-in">
+              <div class="msg-sender">@maria</div>
+              noice let's go
+              <div class="msg-meta">09:33</div>
+            </div>
+            <div class="msg-bubble msg-out" style="opacity:0.7">
+              sending when back online…
+              <div class="msg-queued">⏳ Queued</div>
+            </div>
+          </div>
+          <div class="chat-input-row">
+            <div class="chat-input">Message…</div>
+            <div class="send-btn">↑</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Live E2E chat. Queued messages shown when offline.</div>
+    </div>
+
+    <!-- Screen 6: Promote Member -->
+    <div class="phone-wrap">
+      <div class="phone-label">Promote Member</div>
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="status-bar"><span>9:41</span><div class="status-dots"><span></span><span></span><span></span></div></div>
+          <div class="screen-header">
+            <div class="back-btn">←</div>
+            <div class="screen-title">Transfer Ownership</div>
+          </div>
+          <div class="warning-box">⚠ You must select a new owner before leaving this room.</div>
+          <div style="font-size:9px; color:var(--text-dim); margin-bottom:8px">Select a member to promote:</div>
+          <div class="member-row">
+            <div class="member-avatar">J</div>
+            <div class="member-name">@jake</div>
+            <div class="member-badge">co-owner</div>
+          </div>
+          <div class="member-row selected">
+            <div class="member-avatar">M</div>
+            <div class="member-name">@maria</div>
+            <div style="width:12px; height:12px; border-radius:50%; border:2px solid var(--teal); display:flex; align-items:center; justify-content:center; font-size:7px; color:var(--teal)">✓</div>
+          </div>
+          <div class="member-row">
+            <div class="member-avatar">R</div>
+            <div class="member-name">@rex</div>
+          </div>
+          <div style="margin-top:10px" class="btn btn-primary">Confirm & Leave →</div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Owner must hand off before leaving. Enforced by server.</div>
+    </div>
+
+    <!-- Screen 7: Join Request Popup (owner sees) -->
+    <div class="phone-wrap">
+      <div class="phone-label">Join Request Popup</div>
+      <div class="phone">
+        <div class="phone-inner" style="padding:0">
+          <!-- Blurred chat behind -->
+          <div style="padding:30px 14px 14px; filter:blur(2px); opacity:0.4; height:100%">
+            <div class="status-bar"><span>9:41</span></div>
+            <div class="chat-header">
+              <div class="chat-room-name">Alpha Team</div>
+            </div>
+            <div class="msg-bubble msg-in" style="margin-top:10px">
+              <div class="msg-sender">@jake</div>
+              anyone there?
+            </div>
+          </div>
+          <!-- Popup -->
+          <div class="popup-overlay">
+            <div class="popup-card">
+              <div class="popup-icon">🚪</div>
+              <div class="popup-title">Join Request</div>
+              <div class="popup-sub"><strong style="color:var(--teal)">Admin</strong> wants to join this room. Do you approve?</div>
+              <div class="popup-actions">
+                <div class="btn btn-danger" style="font-size:9px">Deny</div>
+                <div class="btn btn-primary" style="font-size:9px">Approve</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-sublabel">Shown to owners/co-owners when admin requests to join.</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ ADMIN SCREENS ═══ -->
+  <div class="section-label" style="margin-top:16px">02 — Admin Dashboard (Web)</div>
+  <div class="admin-grid">
+
+    <!-- Admin Login -->
+    <div class="admin-screen">
+      <div class="admin-screen-header">
+        <div class="admin-traffic-lights"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <div class="admin-screen-title">admin.securechat.app/login</div>
+      </div>
+      <div class="admin-screen-body" style="display:flex; flex-direction:column; align-items:center; padding:24px 20px">
+        <div class="screen-tag">Admin Only</div>
+        <div class="admin-logo">🛡️</div>
+        <div style="font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:#fff; margin-bottom:4px">Admin Access</div>
+        <div style="font-size:9px; color:var(--text-dim); margin-bottom:16px">// restricted — not visible to users</div>
+        <div style="width:100%">
+          <div class="input-label">Admin Password</div>
+          <div class="input-field" style="width:100%; letter-spacing:0.2em; color:var(--teal)">••••••••••••</div>
+          <div class="input-label" style="margin-top:6px">2FA Code (Google Authenticator)</div>
+          <div class="totp-row">
+            <div class="totp-digit filled">4</div>
+            <div class="totp-digit filled">8</div>
+            <div class="totp-digit filled">2</div>
+            <div class="totp-digit">_</div>
+            <div class="totp-digit">_</div>
+            <div class="totp-digit">_</div>
+          </div>
+          <div class="btn btn-violet" style="width:100%; margin-top:4px">Verify & Enter →</div>
+        </div>
+        <div style="font-size:8px; color:var(--text-dim); margin-top:12px; text-align:center">Incorrect attempts are logged and blocked.</div>
+      </div>
+    </div>
+
+    <!-- Dashboard / Health -->
+    <div class="admin-screen">
+      <div class="admin-screen-header">
+        <div class="admin-traffic-lights"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <div class="admin-screen-title">Dashboard — Server Health</div>
+      </div>
+      <div class="admin-screen-body">
+        <div class="screen-tag">Admin</div>
+        <div style="font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff; margin-bottom:12px">Server Health</div>
+        <div class="stat-row">
+          <div class="stat-card"><div class="stat-val">94<span style="font-size:11px">%</span></div><div class="stat-label">CPU</div></div>
+          <div class="stat-card"><div class="stat-val">2.1<span style="font-size:11px">GB</span></div><div class="stat-label">RAM</div></div>
+          <div class="stat-card"><div class="stat-val">12</div><div class="stat-label">Active Rooms</div></div>
+          <div class="stat-card"><div class="stat-val">47</div><div class="stat-label">Users Online</div></div>
+        </div>
+        <div style="font-size:8px; color:var(--text-dim); margin-bottom:4px; letter-spacing:0.08em; text-transform:uppercase">Connections (last 8h)</div>
+        <div class="mini-chart">
+          <div class="bar" style="height:40%"></div>
+          <div class="bar" style="height:55%"></div>
+          <div class="bar" style="height:35%"></div>
+          <div class="bar" style="height:70%"></div>
+          <div class="bar" style="height:60%"></div>
+          <div class="bar" style="height:85%"></div>
+          <div class="bar" style="height:90%"></div>
+          <div class="bar" style="height:75%; opacity:1"></div>
+        </div>
+        <div class="stat-card" style="display:flex; justify-content:space-between; align-items:center">
+          <div><div class="stat-label">Uptime</div><div style="font-size:13px; color:var(--teal); font-weight:600; margin-top:2px">14d 6h 22m</div></div>
+          <div style="width:8px; height:8px; border-radius:50%; background:var(--teal); box-shadow:0 0 10px var(--teal)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rooms -->
+    <div class="admin-screen">
+      <div class="admin-screen-header">
+        <div class="admin-traffic-lights"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <div class="admin-screen-title">Rooms — Active</div>
+      </div>
+      <div class="admin-screen-body">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+          <div style="font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff">Active Rooms</div>
+          <div style="font-size:9px; color:var(--teal)">12 rooms</div>
+        </div>
+        <div class="admin-room-row">
+          <div>
+            <div class="admin-room-name">Alpha Team</div>
+            <div class="admin-room-count">👥 4 members · XK-4821</div>
+          </div>
+          <div class="admin-actions-row">
+            <div class="icon-btn icon-btn-teal" title="Broadcast">📢</div>
+            <div class="icon-btn icon-btn-teal" title="Request Join">🚪</div>
+            <div class="icon-btn icon-btn-red" title="Force Close">✕</div>
+          </div>
+        </div>
+        <div class="admin-room-row">
+          <div>
+            <div class="admin-room-name">Dev Squad</div>
+            <div class="admin-room-count">👥 7 members · PQ-9034</div>
+          </div>
+          <div class="admin-actions-row">
+            <div class="icon-btn icon-btn-teal">📢</div>
+            <div class="icon-btn icon-btn-teal">🚪</div>
+            <div class="icon-btn icon-btn-red">✕</div>
+          </div>
+        </div>
+        <div class="admin-room-row">
+          <div>
+            <div class="admin-room-name">Night Ops</div>
+            <div class="admin-room-count">👥 2 members · LM-5571</div>
+          </div>
+          <div class="admin-actions-row">
+            <div class="icon-btn icon-btn-teal">📢</div>
+            <div class="icon-btn icon-btn-teal">🚪</div>
+            <div class="icon-btn icon-btn-red">✕</div>
+          </div>
+        </div>
+        <div style="text-align:center; font-size:8px; color:var(--text-dim); margin-top:8px">+ 9 more rooms</div>
+      </div>
+    </div>
+
+    <!-- Users -->
+    <div class="admin-screen">
+      <div class="admin-screen-header">
+        <div class="admin-traffic-lights"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <div class="admin-screen-title">Users — Database</div>
+      </div>
+      <div class="admin-screen-body">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+          <div style="font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff">All Users</div>
+          <div style="font-size:9px; color:var(--teal)">127 total</div>
+        </div>
+        <div class="input-field" style="margin-bottom:10px; width:100%">🔍  Search users…</div>
+        <div class="user-table-header">
+          <div>Username</div>
+          <div>Last Seen</div>
+          <div>Status</div>
+        </div>
+        <div class="user-row">
+          <div>@jake</div>
+          <div style="color:var(--text-dim); font-size:8px">now</div>
+          <div class="user-status-active">● active</div>
+        </div>
+        <div class="user-row">
+          <div>@maria</div>
+          <div style="color:var(--text-dim); font-size:8px">2m ago</div>
+          <div class="user-status-active">● active</div>
+        </div>
+        <div class="user-row">
+          <div>@rex</div>
+          <div style="color:var(--text-dim); font-size:8px">1h ago</div>
+          <div style="color:var(--text-dim); font-size:8px">offline</div>
+        </div>
+        <div class="user-row">
+          <div>@shadow99</div>
+          <div style="color:var(--text-dim); font-size:8px">3d ago</div>
+          <div class="user-status-banned">✕ banned</div>
+        </div>
+        <div style="display:flex; gap:6px; margin-top:10px">
+          <div class="btn btn-danger" style="flex:1; padding:7px; font-size:9px">Ban Selected</div>
+          <div class="btn btn-secondary" style="flex:1; padding:7px; font-size:9px">Unban</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Broadcast -->
+    <div class="admin-screen">
+      <div class="admin-screen-header">
+        <div class="admin-traffic-lights"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <div class="admin-screen-title">Broadcast — Message Rooms</div>
+      </div>
+      <div class="admin-screen-body">
+        <div style="font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff; margin-bottom:12px">Broadcast Message</div>
+        <div class="broadcast-target">
+          <div class="broadcast-label">Target Rooms (tap to select)</div>
+          <div class="broadcast-rooms">
+            <div class="room-tag active">Alpha Team</div>
+            <div class="room-tag active">Dev Squad</div>
+            <div class="room-tag">Night Ops</div>
+            <div class="room-tag">+ 9 more</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:6px; margin-bottom:10px">
+          <div class="btn btn-secondary" style="flex:1; padding:6px; font-size:9px">Select All</div>
+          <div class="btn btn-secondary" style="flex:1; padding:6px; font-size:9px">Clear All</div>
+        </div>
+        <div class="input-label">Message</div>
+        <textarea class="broadcast-textarea" placeholder="Type system message…"></textarea>
+        <div class="btn btn-violet" style="width:100%">📢 Send Broadcast</div>
+        <div style="font-size:8px; color:var(--text-dim); margin-top:8px; text-align:center">Sent as [SYSTEM] — not linked to any user.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center; padding:40px 0 20px; font-size:10px; color:var(--text-dim)">
+    SecureChat Wireframes · Bioluminescent UI · v1.0 · Awaiting Build Approval
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureChat — Style Explorations</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0a0a;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.page {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 56px 32px;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.page-header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.page-header p {
+  color: #555;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+}
+
+/* ── STYLE BLOCK ── */
+.style-block {
+  margin-bottom: 100px;
+}
+
+.style-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.style-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #444;
+  letter-spacing: 0.1em;
+}
+
+.style-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.style-desc {
+  font-size: 13px;
+  color: #555;
+  margin-left: auto;
+  max-width: 300px;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.style-divider {
+  flex: 1;
+  height: 1px;
+  background: #1a1a1a;
+}
+
+.screens-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.screen-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.screen-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #444;
+}
+
+/* ─────────────────────────────────────────
+   STYLE 1: BIOLUMINESCENT (Current)
+───────────────────────────────────────── */
+
+/* Phone Shell */
+.phone {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100px; height: 28px;
+  border-radius: 0 0 18px 18px;
+  z-index: 10;
+}
+
+/* Admin Shell */
+.browser {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.tl { width: 10px; height: 10px; border-radius: 50%; }
+.tl-r { background: #ff5f57; }
+.tl-y { background: #febc2e; }
+.tl-g { background: #28c840; }
+
+.url-bar {
+  flex: 1;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 10px;
+  margin-left: 6px;
+}
+
+
+/* ══════════════════════════════════════════
+   STYLE 1 — BIOLUMINESCENT
+══════════════════════════════════════════ */
+.s1-phone {
+  background: #050d1a;
+  border: 1.5px solid rgba(0,245,212,0.15);
+  box-shadow: 0 0 60px rgba(0,245,212,0.08), 0 30px 60px rgba(0,0,0,0.6);
+}
+
+.s1-phone::before { background: #050d1a; }
+
+.s1-inner {
+  padding: 36px 18px 18px;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.s1-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,245,212,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(123,47,247,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.s1-status { display: flex; justify-content: space-between; font-size: 10px; color: #3a6070; padding-bottom: 12px; position: relative; }
+
+.s1-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(0,245,212,0.1); margin-bottom: 14px; position: relative;
+}
+
+.s1-room { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #fff; }
+.s1-online { font-family: 'Fira Code', monospace; font-size: 9px; color: #00c4aa; display: flex; align-items: center; gap: 5px; }
+.s1-dot { width: 6px; height: 6px; background: #00f5d4; border-radius: 50%; box-shadow: 0 0 8px #00f5d4; }
+
+.s1-msgs { flex: 1; display: flex; flex-direction: column; gap: 8px; position: relative; }
+
+.s1-msg-in {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(0,245,212,0.1);
+  border-radius: 14px 14px 14px 4px; padding: 9px 12px; max-width: 72%;
+  font-size: 11px; color: #c8e6f5; line-height: 1.5;
+}
+
+.s1-msg-out {
+  background: linear-gradient(135deg, rgba(0,245,212,0.12), rgba(0,245,212,0.06));
+  border: 1px solid rgba(0,245,212,0.18); border-radius: 14px 14px 4px 14px;
+  padding: 9px 12px; max-width: 72%; margin-left: auto;
+  font-size: 11px; color: #c8e6f5; line-height: 1.5;
+  box-shadow: 0 0 16px rgba(0,245,212,0.06);
+}
+
+.s1-meta { font-size: 8px; color: #3a6070; margin-top: 3px; }
+.s1-sender { font-size: 8px; color: #00c4aa; margin-bottom: 2px; font-family: 'Fira Code', monospace; }
+
+.s1-input-row {
+  display: flex; gap: 8px; align-items: center; margin-top: 14px; position: relative;
+}
+
+.s1-input {
+  flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(0,245,212,0.12);
+  border-radius: 12px; padding: 10px 14px; font-family: 'Fira Code', monospace;
+  font-size: 10px; color: #3a6070;
+}
+
+.s1-send {
+  width: 38px; height: 38px; background: linear-gradient(135deg, #00f5d4, #00c4aa);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; box-shadow: 0 0 20px rgba(0,245,212,0.3); color: #050d1a; font-weight: 700;
+}
+
+/* S1 Admin */
+.s1-browser {
+  background: #081628;
+  border: 1px solid rgba(0,245,212,0.12);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+
+.s1-browser .browser-bar { background: #0a1e30; border-bottom: 1px solid rgba(0,245,212,0.08); }
+.s1-browser .url-bar { background: rgba(0,245,212,0.05); border: 1px solid rgba(0,245,212,0.1); color: #3a6070; font-family: 'Fira Code', monospace; }
+
+.s1-admin-body { padding: 20px; min-height: 380px; }
+
+.s1-admin-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+
+.s1-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+
+.s1-stat {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(0,245,212,0.1);
+  border-radius: 10px; padding: 12px;
+}
+
+.s1-stat-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: #00f5d4; }
+.s1-stat-lbl { font-size: 9px; color: #3a6070; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+
+.s1-table-header {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 8px 12px; font-size: 9px; color: #3a6070; letter-spacing: 0.08em;
+  text-transform: uppercase; border-bottom: 1px solid rgba(0,245,212,0.08); margin-bottom: 4px;
+}
+
+.s1-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 9px 12px; font-size: 11px; border-radius: 8px; align-items: center;
+}
+
+.s1-row:nth-child(odd) { background: rgba(255,255,255,0.02); }
+.s1-active { color: #00f5d4; font-size: 9px; }
+.s1-banned { color: #ff6080; font-size: 9px; }
+.s1-btn-sm { padding: 3px 10px; border-radius: 5px; font-size: 9px; border: none; cursor: default; }
+.s1-ban { background: rgba(255,60,80,0.12); border: 1px solid rgba(255,60,80,0.25); color: #ff6080; }
+.s1-unban { background: rgba(0,245,212,0.1); border: 1px solid rgba(0,245,212,0.2); color: #00f5d4; }
+
+
+/* ══════════════════════════════════════════
+   STYLE 2 — WARM BRUTALIST
+══════════════════════════════════════════ */
+.s2-phone {
+  background: #f5f0e8;
+  border: 3px solid #1a1008;
+  box-shadow: 8px 8px 0 #1a1008;
+  border-radius: 28px;
+}
+
+.s2-phone::before { background: #1a1008; border-radius: 0 0 12px 12px; }
+
+.s2-inner {
+  padding: 36px 18px 18px;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  background: #f5f0e8;
+}
+
+.s2-status { display: flex; justify-content: space-between; font-size: 10px; color: #8a7060; padding-bottom: 10px; font-family: 'IBM Plex Mono', monospace; }
+
+.s2-header {
+  background: #1a1008; margin: 0 -18px; padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+}
+
+.s2-room { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; color: #f5f0e8; letter-spacing: 0.05em; }
+.s2-online { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #e8b84b; display: flex; align-items: center; gap: 5px; }
+.s2-dot { width: 7px; height: 7px; background: #e8b84b; border-radius: 50%; }
+
+.s2-msgs { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.s2-msg-in {
+  background: #fff; border: 2px solid #1a1008; border-radius: 14px 14px 14px 2px;
+  padding: 10px 13px; max-width: 74%; font-size: 12px; color: #1a1008; line-height: 1.5;
+  box-shadow: 3px 3px 0 #1a1008;
+}
+
+.s2-msg-out {
+  background: #e8b84b; border: 2px solid #1a1008; border-radius: 14px 14px 2px 14px;
+  padding: 10px 13px; max-width: 74%; margin-left: auto;
+  font-size: 12px; color: #1a1008; line-height: 1.5; box-shadow: 3px 3px 0 #1a1008;
+}
+
+.s2-meta { font-size: 8px; color: #8a7060; margin-top: 3px; font-family: 'IBM Plex Mono', monospace; }
+.s2-sender { font-size: 9px; color: #c47a30; margin-bottom: 2px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+
+.s2-input-row { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
+
+.s2-input {
+  flex: 1; background: #fff; border: 2px solid #1a1008; border-radius: 10px;
+  padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 11px; color: #8a7060;
+}
+
+.s2-send {
+  width: 40px; height: 40px; background: #c94040; border: 2px solid #1a1008; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+  box-shadow: 3px 3px 0 #1a1008; color: #fff; font-weight: 700;
+}
+
+/* S2 Admin */
+.s2-browser {
+  background: #f5f0e8;
+  border: 3px solid #1a1008;
+  box-shadow: 8px 8px 0 #1a1008;
+  border-radius: 14px;
+}
+
+.s2-browser .browser-bar { background: #1a1008; border-bottom: 3px solid #1a1008; }
+.s2-browser .url-bar { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #8a7060; font-family: 'IBM Plex Mono', monospace; }
+
+.s2-admin-body { padding: 20px; }
+
+.s2-admin-title {
+  font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: #1a1008;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+
+.s2-admin-title span {
+  background: #c94040; color: #fff; font-size: 10px; padding: 3px 8px;
+  border: 2px solid #1a1008; border-radius: 5px; letter-spacing: 0.08em;
+}
+
+.s2-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+
+.s2-stat {
+  background: #fff; border: 2px solid #1a1008; border-radius: 8px; padding: 12px;
+  box-shadow: 3px 3px 0 #1a1008;
+}
+
+.s2-stat-val { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #c94040; }
+.s2-stat-lbl { font-size: 9px; color: #8a7060; letter-spacing: 0.06em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; }
+
+.s2-table-header {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 8px 12px; font-size: 9px; color: #8a7060;
+  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 2px solid #1a1008; margin-bottom: 4px;
+}
+
+.s2-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 9px 12px; font-size: 11px; border-radius: 6px; align-items: center; color: #1a1008;
+}
+
+.s2-row:nth-child(odd) { background: rgba(0,0,0,0.04); }
+.s2-active-st { color: #2a8a4a; font-size: 9px; font-family: 'IBM Plex Mono', monospace; }
+.s2-banned-st { color: #c94040; font-size: 9px; font-family: 'IBM Plex Mono', monospace; }
+.s2-btn-sm { padding: 3px 10px; border-radius: 5px; font-size: 9px; border: 2px solid #1a1008; cursor: default; font-weight: 600; }
+.s2-ban-btn { background: #c94040; color: #fff; }
+.s2-unban-btn { background: #e8b84b; color: #1a1008; }
+
+
+/* ══════════════════════════════════════════
+   STYLE 3 — SOFT GLASSMORPHISM (Light)
+══════════════════════════════════════════ */
+.s3-wrap {
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0e8fd 50%, #fde8f4 100%);
+  padding: 24px;
+  border-radius: 28px;
+}
+
+.s3-phone {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 20px 60px rgba(100,80,200,0.12), 0 4px 12px rgba(0,0,0,0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 36px;
+}
+
+.s3-phone::before { background: rgba(255,255,255,0.8); }
+
+.s3-inner {
+  padding: 36px 18px 18px;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+}
+
+.s3-status { display: flex; justify-content: space-between; font-size: 10px; color: #9090b0; padding-bottom: 10px; font-family: 'DM Sans', sans-serif; }
+
+.s3-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(120,80,200,0.1); margin-bottom: 14px;
+}
+
+.s3-room { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: #2d2250; }
+.s3-online { font-size: 10px; color: #7c5cbf; display: flex; align-items: center; gap: 5px; }
+.s3-dot { width: 6px; height: 6px; background: #7c5cbf; border-radius: 50%; }
+
+.s3-msgs { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+
+.s3-msg-in {
+  background: rgba(255,255,255,0.8); border: 1px solid rgba(120,80,200,0.12);
+  border-radius: 18px 18px 18px 4px; padding: 10px 14px; max-width: 74%;
+  font-size: 12px; color: #2d2250; line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(120,80,200,0.08); backdrop-filter: blur(10px);
+}
+
+.s3-msg-out {
+  background: linear-gradient(135deg, #7c5cbf, #b060d0);
+  border-radius: 18px 18px 4px 18px; padding: 10px 14px; max-width: 74%; margin-left: auto;
+  font-size: 12px; color: #fff; line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(120,80,200,0.3);
+}
+
+.s3-meta { font-size: 8px; color: #b0a0d0; margin-top: 3px; }
+.s3-sender { font-size: 9px; color: #7c5cbf; margin-bottom: 2px; font-weight: 600; }
+
+.s3-input-row { display: flex; gap: 8px; align-items: center; margin-top: 14px; }
+
+.s3-input {
+  flex: 1; background: rgba(255,255,255,0.7); border: 1px solid rgba(120,80,200,0.15);
+  border-radius: 16px; padding: 11px 16px; font-family: 'DM Sans', sans-serif;
+  font-size: 11px; color: #9090b0; backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(120,80,200,0.06);
+}
+
+.s3-send {
+  width: 40px; height: 40px; background: linear-gradient(135deg, #7c5cbf, #b060d0);
+  border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; box-shadow: 0 8px 20px rgba(120,80,200,0.35); color: #fff; font-weight: 700;
+}
+
+/* S3 Admin */
+.s3-browser-wrap {
+  background: linear-gradient(135deg, #e8f4fd 0%, #f0e8fd 50%, #fde8f4 100%);
+  padding: 24px;
+  border-radius: 20px;
+}
+
+.s3-browser {
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 20px 60px rgba(100,80,200,0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 14px;
+}
+
+.s3-browser .browser-bar { background: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(120,80,200,0.08); }
+.s3-browser .url-bar { background: rgba(120,80,200,0.06); border: 1px solid rgba(120,80,200,0.1); color: #9090b0; }
+
+.s3-admin-body { padding: 20px; }
+
+.s3-admin-title { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #2d2250; margin-bottom: 16px; }
+
+.s3-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+
+.s3-stat {
+  background: rgba(255,255,255,0.8); border: 1px solid rgba(120,80,200,0.12);
+  border-radius: 12px; padding: 12px;
+  box-shadow: 0 4px 12px rgba(120,80,200,0.06);
+}
+
+.s3-stat-val { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: #7c5cbf; }
+.s3-stat-lbl { font-size: 9px; color: #9090b0; letter-spacing: 0.04em; margin-top: 2px; }
+
+.s3-table-header {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 8px 12px; font-size: 9px; color: #9090b0; letter-spacing: 0.06em;
+  text-transform: uppercase; border-bottom: 1px solid rgba(120,80,200,0.1); margin-bottom: 4px;
+}
+
+.s3-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 9px 12px; font-size: 11px; border-radius: 8px; align-items: center; color: #2d2250;
+}
+
+.s3-row:nth-child(odd) { background: rgba(120,80,200,0.04); }
+.s3-active-st { color: #5ab87a; font-size: 9px; }
+.s3-banned-st { color: #e05070; font-size: 9px; }
+.s3-btn-sm { padding: 4px 12px; border-radius: 20px; font-size: 9px; border: none; cursor: default; font-weight: 600; }
+.s3-ban-btn { background: rgba(220,60,80,0.1); color: #e05070; }
+.s3-unban-btn { background: rgba(120,80,200,0.12); color: #7c5cbf; }
+
+
+/* ══════════════════════════════════════════
+   STYLE 4 — TERMINAL / HACKER GREEN
+══════════════════════════════════════════ */
+.s4-phone {
+  background: #030f03;
+  border: 1px solid #0a3a0a;
+  box-shadow: 0 0 0 1px #0d4a0d, 0 0 40px rgba(0,200,50,0.06), 0 30px 60px rgba(0,0,0,0.8);
+  border-radius: 28px;
+}
+
+.s4-phone::before { background: #030f03; }
+
+.s4-inner {
+  padding: 36px 18px 18px;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanlines */
+.s4-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,200,50,0.015) 2px, rgba(0,200,50,0.015) 4px);
+  pointer-events: none;
+}
+
+.s4-status { display: flex; justify-content: space-between; font-size: 9px; color: #1a5a1a; padding-bottom: 10px; font-family: 'IBM Plex Mono', monospace; position: relative; }
+
+.s4-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 10px; border-bottom: 1px solid #0a3a0a; margin-bottom: 12px; position: relative;
+}
+
+.s4-room { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; color: #00c832; letter-spacing: 0.08em; }
+.s4-room::before { content: '> '; color: #1a5a1a; }
+.s4-online { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #1a8a2a; }
+
+.s4-msgs { flex: 1; display: flex; flex-direction: column; gap: 6px; position: relative; }
+
+.s4-msg-in {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #00c832;
+  line-height: 1.6; padding: 2px 0;
+}
+
+.s4-msg-in::before { content: '[recv] '; color: #1a5a1a; }
+
+.s4-msg-out {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #70e870;
+  line-height: 1.6; padding: 2px 0;
+}
+
+.s4-msg-out::before { content: '[sent] '; color: #2a8a2a; }
+
+.s4-sender { color: #2a8a2a; }
+
+.s4-system {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #1a5a1a;
+  border-left: 2px solid #0a3a0a; padding-left: 8px;
+}
+
+.s4-cursor::after { content: '█'; animation: blink 1s infinite; color: #00c832; }
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+.s4-input-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; position: relative; }
+
+.s4-prompt { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #00c832; }
+
+.s4-input {
+  flex: 1; background: transparent; border: none; border-bottom: 1px solid #0a3a0a;
+  padding: 6px 0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #1a5a1a;
+}
+
+.s4-send {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #00c832;
+  background: #0a3a0a; border: 1px solid #1a5a1a; border-radius: 4px;
+  padding: 5px 10px; letter-spacing: 0.05em;
+}
+
+/* S4 Admin */
+.s4-browser {
+  background: #030f03;
+  border: 1px solid #0a3a0a;
+  box-shadow: 0 0 40px rgba(0,200,50,0.05), 0 30px 60px rgba(0,0,0,0.8);
+  border-radius: 12px;
+}
+
+.s4-browser .browser-bar { background: #020a02; border-bottom: 1px solid #0a3a0a; }
+.s4-browser .url-bar { background: #030f03; border: 1px solid #0a3a0a; color: #1a5a1a; font-family: 'IBM Plex Mono', monospace; }
+
+.s4-admin-body { padding: 20px; font-family: 'IBM Plex Mono', monospace; position: relative; overflow: hidden; }
+
+.s4-admin-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,200,50,0.012) 2px, rgba(0,200,50,0.012) 4px);
+  pointer-events: none;
+}
+
+.s4-admin-title { font-size: 14px; font-weight: 500; color: #00c832; margin-bottom: 4px; position: relative; }
+.s4-admin-title::before { content: '> '; color: #1a5a1a; }
+.s4-admin-sub { font-size: 9px; color: #1a5a1a; margin-bottom: 16px; position: relative; }
+
+.s4-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; position: relative; }
+
+.s4-stat {
+  background: #020a02; border: 1px solid #0a3a0a; border-radius: 4px; padding: 10px;
+}
+
+.s4-stat-val { font-size: 20px; font-weight: 500; color: #00c832; }
+.s4-stat-lbl { font-size: 8px; color: #1a5a1a; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+.s4-table-header {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 6px 8px; font-size: 8px; color: #1a5a1a; letter-spacing: 0.1em;
+  text-transform: uppercase; border-bottom: 1px solid #0a3a0a; margin-bottom: 4px; position: relative;
+}
+
+.s4-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 7px 8px; font-size: 10px; align-items: center; color: #00c832; position: relative;
+}
+
+.s4-row::before { content: '· '; color: #1a5a1a; }
+.s4-row:nth-child(odd) { background: rgba(0,200,50,0.02); }
+.s4-active-st { color: #40e840; font-size: 9px; }
+.s4-banned-st { color: #e04040; font-size: 9px; }
+.s4-btn-sm { padding: 2px 8px; border-radius: 3px; font-size: 8px; border: 1px solid; cursor: default; letter-spacing: 0.05em; }
+.s4-ban-btn { background: rgba(200,40,40,0.1); border-color: #4a0a0a; color: #e04040; }
+.s4-unban-btn { background: rgba(0,200,50,0.08); border-color: #0a3a0a; color: #00c832; }
+
+
+/* ══════════════════════════════════════════
+   STYLE 5 — LUXURY DARK GOLD
+══════════════════════════════════════════ */
+.s5-phone {
+  background: #0e0c08;
+  border: 1px solid #2a2010;
+  box-shadow: 0 0 0 1px rgba(200,160,60,0.1), 0 30px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(200,160,60,0.1);
+  border-radius: 38px;
+}
+
+.s5-phone::before { background: #0e0c08; }
+
+.s5-inner {
+  padding: 36px 18px 18px;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.s5-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(200,160,60,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.s5-status { display: flex; justify-content: space-between; font-size: 10px; color: #4a4030; padding-bottom: 10px; font-family: 'Playfair Display', serif; font-style: italic; position: relative; }
+
+.s5-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 12px; border-bottom: 1px solid rgba(200,160,60,0.12); margin-bottom: 14px; position: relative;
+}
+
+.s5-room { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: #c8a03c; letter-spacing: 0.03em; }
+.s5-online { font-size: 9px; color: #6a5a30; display: flex; align-items: center; gap: 5px; font-family: 'DM Sans', sans-serif; }
+.s5-dot { width: 5px; height: 5px; background: #c8a03c; border-radius: 50%; box-shadow: 0 0 6px rgba(200,160,60,0.5); }
+
+.s5-msgs { flex: 1; display: flex; flex-direction: column; gap: 8px; position: relative; }
+
+.s5-msg-in {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(200,160,60,0.1);
+  border-radius: 16px 16px 16px 3px; padding: 10px 14px; max-width: 74%;
+  font-size: 12px; color: #c0aa80; line-height: 1.6; font-family: 'DM Sans', sans-serif;
+}
+
+.s5-msg-out {
+  background: rgba(200,160,60,0.08); border: 1px solid rgba(200,160,60,0.2);
+  border-radius: 16px 16px 3px 16px; padding: 10px 14px; max-width: 74%; margin-left: auto;
+  font-size: 12px; color: #e0c060; line-height: 1.6; font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 0 20px rgba(200,160,60,0.06);
+}
+
+.s5-meta { font-size: 8px; color: #4a4030; margin-top: 3px; font-style: italic; }
+.s5-sender { font-size: 9px; color: #8a7040; margin-bottom: 2px; font-family: 'Playfair Display', serif; font-style: italic; }
+
+.s5-input-row { display: flex; gap: 8px; align-items: center; margin-top: 14px; position: relative; }
+
+.s5-input {
+  flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(200,160,60,0.1);
+  border-radius: 12px; padding: 10px 14px; font-family: 'DM Sans', sans-serif;
+  font-size: 11px; color: #4a4030;
+}
+
+.s5-send {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, #c8a03c, #a07828);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; box-shadow: 0 8px 24px rgba(200,160,60,0.2); color: #0e0c08; font-weight: 700;
+}
+
+/* S5 Admin */
+.s5-browser {
+  background: #0e0c08;
+  border: 1px solid rgba(200,160,60,0.15);
+  box-shadow: 0 0 0 1px rgba(200,160,60,0.05), 0 30px 80px rgba(0,0,0,0.8);
+  border-radius: 14px;
+}
+
+.s5-browser .browser-bar { background: #090806; border-bottom: 1px solid rgba(200,160,60,0.08); }
+.s5-browser .url-bar { background: rgba(200,160,60,0.04); border: 1px solid rgba(200,160,60,0.1); color: #4a4030; font-family: 'DM Sans', sans-serif; }
+
+.s5-admin-body { padding: 20px; }
+
+.s5-admin-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; color: #c8a03c; margin-bottom: 4px; }
+.s5-admin-sub { font-size: 10px; color: #4a4030; margin-bottom: 16px; font-style: italic; }
+
+.s5-stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+
+.s5-stat {
+  background: rgba(200,160,60,0.04); border: 1px solid rgba(200,160,60,0.1);
+  border-radius: 10px; padding: 12px;
+}
+
+.s5-stat-val { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: #c8a03c; }
+.s5-stat-lbl { font-size: 9px; color: #4a4030; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+
+.s5-table-header {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 8px 12px; font-size: 9px; color: #4a4030; letter-spacing: 0.08em;
+  text-transform: uppercase; border-bottom: 1px solid rgba(200,160,60,0.1); margin-bottom: 4px;
+  font-style: italic;
+}
+
+.s5-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 80px;
+  padding: 9px 12px; font-size: 11px; border-radius: 8px; align-items: center; color: #c0aa80;
+}
+
+.s5-row:nth-child(odd) { background: rgba(200,160,60,0.03); }
+.s5-active-st { color: #8a9a50; font-size: 9px; }
+.s5-banned-st { color: #c04040; font-size: 9px; }
+.s5-btn-sm { padding: 4px 10px; border-radius: 5px; font-size: 9px; border: 1px solid; cursor: default; }
+.s5-ban-btn { background: rgba(180,40,40,0.08); border-color: rgba(180,40,40,0.2); color: #c04040; }
+.s5-unban-btn { background: rgba(200,160,60,0.08); border-color: rgba(200,160,60,0.2); color: #c8a03c; }
+
+/* Separator */
+.sep { height: 1px; background: #1a1a1a; margin: 80px 0; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Style Explorations</h1>
+    <p>4 distinct UI directions · Chat Screen + Admin Dashboard per style</p>
+  </div>
+
+  <!-- ══════ STYLE 1: BIOLUMINESCENT ══════ -->
+  <div class="style-block">
+    <div class="style-title">
+      <span class="style-num">01 /</span>
+      <span class="style-name" style="color:#00f5d4">Bioluminescent</span>
+      <div class="style-divider"></div>
+      <div class="style-desc">Deep ocean glow. Navy blacks, electric teal, violet. The current plan.</div>
+    </div>
+    <div class="screens-row">
+      <div class="screen-wrap">
+        <span class="screen-tag">// Mobile — Chat Screen</span>
+        <div class="phone s1-phone">
+          <div class="s1-inner">
+            <div class="s1-bg"></div>
+            <div class="s1-status"><span>9:41</span><span>●●● 5G ▌</span></div>
+            <div class="s1-header">
+              <div>
+                <div class="s1-room">Alpha Team</div>
+                <div class="s1-online"><div class="s1-dot"></div>4 online · E2E encrypted</div>
+              </div>
+              <div style="display:flex;gap:6px">
+                <div style="width:28px;height:28px;border:1px solid rgba(0,245,212,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;">👥</div>
+                <div style="width:28px;height:28px;background:rgba(255,60,80,0.1);border:1px solid rgba(255,60,80,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#ff6080;">✕</div>
+              </div>
+            </div>
+            <div class="s1-msgs">
+              <div class="s1-msg-in">
+                <div class="s1-sender">@jake</div>
+                hey is this actually encrypted? 👀
+                <div class="s1-meta">09:32 · delivered</div>
+              </div>
+              <div class="s1-msg-out">
+                yes, AES-256 + RSA key exchange. server never sees plaintext 🔐
+                <div class="s1-meta">09:33 ✓✓</div>
+              </div>
+              <div class="s1-msg-in">
+                <div class="s1-sender">@maria</div>
+                actually impressive ngl
+                <div class="s1-meta">09:34</div>
+              </div>
+              <div class="s1-msg-out" style="opacity:0.65">
+                sending when reconnected…
+                <div style="font-size:8px;color:#f5a623;margin-top:2px;text-align:right;">⏳ Queued</div>
+              </div>
+            </div>
+            <div class="s1-input-row">
+              <div class="s1-input">Message…</div>
+              <div class="s1-send">↑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-wrap">
+        <span class="screen-tag">// Admin — Users Dashboard</span>
+        <div class="browser s1-browser">
+          <div class="browser-bar">
+            <div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div>
+            <div class="url-bar">admin.securechat.app/users</div>
+          </div>
+          <div class="s1-admin-body">
+            <div class="s1-admin-title">User Registry</div>
+            <div class="s1-stat-grid">
+              <div class="s1-stat"><div class="s1-stat-val">127</div><div class="s1-stat-lbl">Total Users</div></div>
+              <div class="s1-stat"><div class="s1-stat-val">47</div><div class="s1-stat-lbl">Online Now</div></div>
+              <div class="s1-stat"><div class="s1-stat-val">3</div><div class="s1-stat-lbl">Banned</div></div>
+              <div class="s1-stat"><div class="s1-stat-val">12</div><div class="s1-stat-lbl">Active Rooms</div></div>
+            </div>
+            <div class="s1-table-header"><div>Username</div><div>Last Seen</div><div>Status</div><div>Action</div></div>
+            <div class="s1-row"><div style="color:#c8e6f5">@jake</div><div style="color:#3a6070;font-size:10px">now</div><div class="s1-active">● active</div><div><span class="s1-btn-sm s1-ban">ban</span></div></div>
+            <div class="s1-row"><div style="color:#c8e6f5">@maria</div><div style="color:#3a6070;font-size:10px">2m ago</div><div class="s1-active">● active</div><div><span class="s1-btn-sm s1-ban">ban</span></div></div>
+            <div class="s1-row"><div style="color:#c8e6f5">@rex</div><div style="color:#3a6070;font-size:10px">1h ago</div><div style="color:#3a6070;font-size:9px">offline</div><div><span class="s1-btn-sm s1-ban">ban</span></div></div>
+            <div class="s1-row"><div style="color:#c8e6f5">@shadow99</div><div style="color:#3a6070;font-size:10px">3d ago</div><div class="s1-banned">✕ banned</div><div><span class="s1-btn-sm s1-unban">unban</span></div></div>
+            <div class="s1-row"><div style="color:#c8e6f5">@ghost_k</div><div style="color:#3a6070;font-size:10px">5d ago</div><div style="color:#3a6070;font-size:9px">offline</div><div><span class="s1-btn-sm s1-ban">ban</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ══════ STYLE 2: WARM BRUTALIST ══════ -->
+  <div class="style-block">
+    <div class="style-title">
+      <span class="style-num">02 /</span>
+      <span class="style-name" style="color:#e8b84b">Warm Brutalist</span>
+      <div class="style-divider"></div>
+      <div class="style-desc">Raw, bold, high-contrast. Cream paper + black + amber + red. Editorial energy.</div>
+    </div>
+    <div class="screens-row">
+      <div class="screen-wrap">
+        <span class="screen-tag">// Mobile — Chat Screen</span>
+        <div class="phone s2-phone">
+          <div class="s2-inner">
+            <div class="s2-status"><span>9:41</span><span>●●● 5G ▌</span></div>
+            <div class="s2-header">
+              <div class="s2-room">ALPHA TEAM</div>
+              <div class="s2-online"><div class="s2-dot"></div>4 ONLINE</div>
+            </div>
+            <div class="s2-msgs">
+              <div class="s2-msg-in">
+                <div class="s2-sender">@jake</div>
+                hey is this actually encrypted? 👀
+                <div class="s2-meta">09:32 · delivered</div>
+              </div>
+              <div class="s2-msg-out">
+                yes, AES-256 + RSA key exchange. server never sees plaintext 🔐
+                <div class="s2-meta" style="text-align:right">09:33 ✓✓</div>
+              </div>
+              <div class="s2-msg-in">
+                <div class="s2-sender">@maria</div>
+                actually impressive ngl
+                <div class="s2-meta">09:34</div>
+              </div>
+              <div class="s2-msg-out" style="opacity:0.6; background:#f5a623">
+                sending when reconnected…
+                <div style="font-size:8px;color:#8a6020;margin-top:2px;font-family:'IBM Plex Mono',monospace;text-align:right;">⏳ QUEUED</div>
+              </div>
+            </div>
+            <div class="s2-input-row">
+              <div class="s2-input">Message…</div>
+              <div class="s2-send">↑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-wrap">
+        <span class="screen-tag">// Admin — Users Dashboard</span>
+        <div class="browser s2-browser">
+          <div class="browser-bar">
+            <div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div>
+            <div class="url-bar">admin.securechat.app/users</div>
+          </div>
+          <div class="s2-admin-body">
+            <div class="s2-admin-title">User Registry <span>ADMIN</span></div>
+            <div class="s2-stat-grid">
+              <div class="s2-stat"><div class="s2-stat-val">127</div><div class="s2-stat-lbl">Total Users</div></div>
+              <div class="s2-stat"><div class="s2-stat-val">47</div><div class="s2-stat-lbl">Online Now</div></div>
+              <div class="s2-stat" style="background:#e8b84b;"><div class="s2-stat-val" style="color:#1a1008">3</div><div class="s2-stat-lbl" style="color:#8a6020">Banned</div></div>
+              <div class="s2-stat"><div class="s2-stat-val">12</div><div class="s2-stat-lbl">Rooms</div></div>
+            </div>
+            <div class="s2-table-header"><div>Username</div><div>Last Seen</div><div>Status</div><div>Action</div></div>
+            <div class="s2-row"><div>@jake</div><div style="font-size:10px;color:#8a7060">now</div><div class="s2-active-st">● active</div><div><span class="s2-btn-sm s2-ban-btn">BAN</span></div></div>
+            <div class="s2-row"><div>@maria</div><div style="font-size:10px;color:#8a7060">2m ago</div><div class="s2-active-st">● active</div><div><span class="s2-btn-sm s2-ban-btn">BAN</span></div></div>
+            <div class="s2-row"><div>@rex</div><div style="font-size:10px;color:#8a7060">1h ago</div><div style="color:#8a7060;font-size:9px;font-family:'IBM Plex Mono',monospace">offline</div><div><span class="s2-btn-sm s2-ban-btn">BAN</span></div></div>
+            <div class="s2-row"><div>@shadow99</div><div style="font-size:10px;color:#8a7060">3d ago</div><div class="s2-banned-st">✕ banned</div><div><span class="s2-btn-sm s2-unban-btn">UNBAN</span></div></div>
+            <div class="s2-row"><div>@ghost_k</div><div style="font-size:10px;color:#8a7060">5d ago</div><div style="color:#8a7060;font-size:9px;font-family:'IBM Plex Mono',monospace">offline</div><div><span class="s2-btn-sm s2-ban-btn">BAN</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ══════ STYLE 3: SOFT GLASSMORPHISM ══════ -->
+  <div class="style-block">
+    <div class="style-title">
+      <span class="style-num">03 /</span>
+      <span class="style-name" style="color:#7c5cbf">Soft Glass</span>
+      <div class="style-divider"></div>
+      <div class="style-desc">Light mode glassmorphism. Lavender gradients, frosted cards, gentle purple accents.</div>
+    </div>
+    <div class="screens-row">
+      <div class="screen-wrap">
+        <span class="screen-tag">// Mobile — Chat Screen</span>
+        <div class="s3-wrap">
+          <div class="phone s3-phone">
+            <div class="s3-inner">
+              <div class="s3-status"><span>9:41</span><span>●●● 5G ▌</span></div>
+              <div class="s3-header">
+                <div>
+                  <div class="s3-room">Alpha Team</div>
+                  <div class="s3-online"><div class="s3-dot"></div>4 online</div>
+                </div>
+                <div style="display:flex;gap:6px">
+                  <div style="width:30px;height:30px;background:rgba(120,80,200,0.1);border:1px solid rgba(120,80,200,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;">👥</div>
+                  <div style="width:30px;height:30px;background:rgba(220,60,80,0.08);border:1px solid rgba(220,60,80,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#e05070;">✕</div>
+                </div>
+              </div>
+              <div class="s3-msgs">
+                <div class="s3-msg-in">
+                  <div class="s3-sender">jake</div>
+                  hey is this actually encrypted? 👀
+                  <div class="s3-meta">09:32 · delivered</div>
+                </div>
+                <div class="s3-msg-out">
+                  yes, AES-256 + RSA key exchange. server never sees plaintext 🔐
+                  <div class="s3-meta" style="color:rgba(255,255,255,0.5);text-align:right">09:33 ✓✓</div>
+                </div>
+                <div class="s3-msg-in">
+                  <div class="s3-sender">maria</div>
+                  actually impressive ngl
+                  <div class="s3-meta">09:34</div>
+                </div>
+                <div class="s3-msg-out" style="opacity:0.5;background:linear-gradient(135deg,#f5a623,#f0900a)">
+                  sending when reconnected…
+                  <div style="font-size:8px;color:rgba(255,255,255,0.7);margin-top:2px;text-align:right;">⏳ Queued</div>
+                </div>
+              </div>
+              <div class="s3-input-row">
+                <div class="s3-input">Message…</div>
+                <div class="s3-send">↑</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-wrap">
+        <span class="screen-tag">// Admin — Users Dashboard</span>
+        <div class="s3-browser-wrap">
+          <div class="browser s3-browser">
+            <div class="browser-bar">
+              <div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div>
+              <div class="url-bar">admin.securechat.app/users</div>
+            </div>
+            <div class="s3-admin-body">
+              <div class="s3-admin-title">User Registry</div>
+              <div class="s3-stat-grid">
+                <div class="s3-stat"><div class="s3-stat-val">127</div><div class="s3-stat-lbl">Total Users</div></div>
+                <div class="s3-stat"><div class="s3-stat-val">47</div><div class="s3-stat-lbl">Online Now</div></div>
+                <div class="s3-stat"><div class="s3-stat-val">3</div><div class="s3-stat-lbl">Banned</div></div>
+                <div class="s3-stat"><div class="s3-stat-val">12</div><div class="s3-stat-lbl">Rooms</div></div>
+              </div>
+              <div class="s3-table-header"><div>Username</div><div>Last Seen</div><div>Status</div><div>Action</div></div>
+              <div class="s3-row"><div style="color:#2d2250">@jake</div><div style="font-size:10px;color:#9090b0">now</div><div class="s3-active-st">● active</div><div><span class="s3-btn-sm s3-ban-btn">Ban</span></div></div>
+              <div class="s3-row"><div style="color:#2d2250">@maria</div><div style="font-size:10px;color:#9090b0">2m ago</div><div class="s3-active-st">● active</div><div><span class="s3-btn-sm s3-ban-btn">Ban</span></div></div>
+              <div class="s3-row"><div style="color:#2d2250">@rex</div><div style="font-size:10px;color:#9090b0">1h ago</div><div style="color:#9090b0;font-size:9px">offline</div><div><span class="s3-btn-sm s3-ban-btn">Ban</span></div></div>
+              <div class="s3-row"><div style="color:#2d2250">@shadow99</div><div style="font-size:10px;color:#9090b0">3d ago</div><div class="s3-banned-st">✕ banned</div><div><span class="s3-btn-sm s3-unban-btn">Unban</span></div></div>
+              <div class="s3-row"><div style="color:#2d2250">@ghost_k</div><div style="font-size:10px;color:#9090b0">5d ago</div><div style="color:#9090b0;font-size:9px">offline</div><div><span class="s3-btn-sm s3-ban-btn">Ban</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ══════ STYLE 4: TERMINAL / HACKER ══════ -->
+  <div class="style-block">
+    <div class="style-title">
+      <span class="style-num">04 /</span>
+      <span class="style-name" style="color:#00c832;font-family:'IBM Plex Mono',monospace">Terminal</span>
+      <div class="style-divider"></div>
+      <div class="style-desc">Pure hacker aesthetic. CRT scanlines, phosphor green on black. Command-line soul.</div>
+    </div>
+    <div class="screens-row">
+      <div class="screen-wrap">
+        <span class="screen-tag">// Mobile — Chat Screen</span>
+        <div class="phone s4-phone">
+          <div class="s4-inner">
+            <div class="s4-status"><span>09:41:22</span><span>SIG:●●● NET:5G</span></div>
+            <div class="s4-header">
+              <div>
+                <div class="s4-room">ALPHA_TEAM</div>
+                <div class="s4-online">CONN:4 · ENC:AES256-GCM · OK</div>
+              </div>
+            </div>
+            <div class="s4-msgs">
+              <div class="s4-msg-in"><span class="s4-sender">[jake]</span> hey is this actually encrypted?</div>
+              <div class="s4-msg-out">yes. AES-256 + RSA. srv sees 0 plaintext.</div>
+              <div class="s4-msg-in"><span class="s4-sender">[maria]</span> actually impressive ngl</div>
+              <div class="s4-system">// connection lost · queuing messages…</div>
+              <div class="s4-msg-out" style="opacity:0.5">reconnecting pls wait<span class="s4-cursor"></span></div>
+            </div>
+            <div class="s4-input-row">
+              <div class="s4-prompt">$</div>
+              <div class="s4-input">type message…</div>
+              <div class="s4-send">SEND</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-wrap">
+        <span class="screen-tag">// Admin — Users Dashboard</span>
+        <div class="browser s4-browser">
+          <div class="browser-bar">
+            <div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div>
+            <div class="url-bar">admin.securechat.app/users</div>
+          </div>
+          <div class="s4-admin-body">
+            <div class="s4-admin-title">user_registry</div>
+            <div class="s4-admin-sub">// 127 records · 47 active · 3 banned · last sync: 0.2s ago</div>
+            <div class="s4-stat-grid">
+              <div class="s4-stat"><div class="s4-stat-val">127</div><div class="s4-stat-lbl">total</div></div>
+              <div class="s4-stat"><div class="s4-stat-val">47</div><div class="s4-stat-lbl">online</div></div>
+              <div class="s4-stat"><div class="s4-stat-val" style="color:#e04040">3</div><div class="s4-stat-lbl">banned</div></div>
+              <div class="s4-stat"><div class="s4-stat-val">12</div><div class="s4-stat-lbl">rooms</div></div>
+            </div>
+            <div class="s4-table-header"><div>// handle</div><div>last_seen</div><div>status</div><div>cmd</div></div>
+            <div class="s4-row"><div>@jake</div><div style="font-size:9px;color:#1a8a2a">0s</div><div class="s4-active-st">[ACTIVE]</div><div><span class="s4-btn-sm s4-ban-btn">--ban</span></div></div>
+            <div class="s4-row"><div>@maria</div><div style="font-size:9px;color:#1a8a2a">120s</div><div class="s4-active-st">[ACTIVE]</div><div><span class="s4-btn-sm s4-ban-btn">--ban</span></div></div>
+            <div class="s4-row"><div>@rex</div><div style="font-size:9px;color:#1a5a1a">3600s</div><div style="color:#1a5a1a;font-size:9px">[IDLE]</div><div><span class="s4-btn-sm s4-ban-btn">--ban</span></div></div>
+            <div class="s4-row"><div>@shadow99</div><div style="font-size:9px;color:#1a5a1a">259200s</div><div class="s4-banned-st">[BANNED]</div><div><span class="s4-btn-sm s4-unban-btn">--unban</span></div></div>
+            <div class="s4-row"><div>@ghost_k</div><div style="font-size:9px;color:#1a5a1a">432000s</div><div style="color:#1a5a1a;font-size:9px">[IDLE]</div><div><span class="s4-btn-sm s4-ban-btn">--ban</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ══════ STYLE 5: LUXURY DARK GOLD ══════ -->
+  <div class="style-block">
+    <div class="style-title">
+      <span class="style-num">05 /</span>
+      <span class="style-name" style="color:#c8a03c;font-family:'Playfair Display',serif">Luxury Gold</span>
+      <div class="style-divider"></div>
+      <div class="style-desc">Obsidian black, 24k gold accents. Refined typographic hierarchy. Premium and discreet.</div>
+    </div>
+    <div class="screens-row">
+      <div class="screen-wrap">
+        <span class="screen-tag">// Mobile — Chat Screen</span>
+        <div class="phone s5-phone">
+          <div class="s5-inner">
+            <div class="s5-bg"></div>
+            <div class="s5-status"><span>9:41</span><span>●●● 5G ▌</span></div>
+            <div class="s5-header">
+              <div>
+                <div class="s5-room">Alpha Team</div>
+                <div class="s5-online"><div class="s5-dot"></div>4 members present</div>
+              </div>
+              <div style="display:flex;gap:6px">
+                <div style="width:28px;height:28px;border:1px solid rgba(200,160,60,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;">👥</div>
+                <div style="width:28px;height:28px;border:1px solid rgba(180,40,40,0.2);background:rgba(180,40,40,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#c04040;">✕</div>
+              </div>
+            </div>
+            <div class="s5-msgs">
+              <div class="s5-msg-in">
+                <div class="s5-sender">jake</div>
+                hey is this actually encrypted? 👀
+                <div class="s5-meta">09:32 · delivered</div>
+              </div>
+              <div class="s5-msg-out">
+                yes, AES-256 + RSA key exchange. server never sees plaintext 🔐
+                <div class="s5-meta" style="text-align:right">09:33 ✓✓</div>
+              </div>
+              <div class="s5-msg-in">
+                <div class="s5-sender">maria</div>
+                actually impressive ngl
+                <div class="s5-meta">09:34</div>
+              </div>
+              <div class="s5-msg-out" style="opacity:0.5">
+                sending when reconnected…
+                <div style="font-size:8px;color:#f5a623;margin-top:2px;text-align:right;font-style:italic;">⏳ Queued</div>
+              </div>
+            </div>
+            <div class="s5-input-row">
+              <div class="s5-input">Compose message…</div>
+              <div class="s5-send">↑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-wrap">
+        <span class="screen-tag">// Admin — Users Dashboard</span>
+        <div class="browser s5-browser">
+          <div class="browser-bar">
+            <div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div>
+            <div class="url-bar">admin.securechat.app/users</div>
+          </div>
+          <div class="s5-admin-body">
+            <div class="s5-admin-title">User Registry</div>
+            <div class="s5-admin-sub">Complete member database · encrypted · access restricted</div>
+            <div class="s5-stat-grid">
+              <div class="s5-stat"><div class="s5-stat-val">127</div><div class="s5-stat-lbl">Total Users</div></div>
+              <div class="s5-stat"><div class="s5-stat-val">47</div><div class="s5-stat-lbl">Online Now</div></div>
+              <div class="s5-stat"><div class="s5-stat-val">3</div><div class="s5-stat-lbl">Banned</div></div>
+              <div class="s5-stat"><div class="s5-stat-val">12</div><div class="s5-stat-lbl">Rooms</div></div>
+            </div>
+            <div class="s5-table-header"><div>Member</div><div>Last Seen</div><div>Status</div><div>Action</div></div>
+            <div class="s5-row"><div>@jake</div><div style="font-size:10px;color:#4a4030;font-style:italic">moments ago</div><div class="s5-active-st">● present</div><div><span class="s5-btn-sm s5-ban-btn">Restrict</span></div></div>
+            <div class="s5-row"><div>@maria</div><div style="font-size:10px;color:#4a4030;font-style:italic">2 min ago</div><div class="s5-active-st">● present</div><div><span class="s5-btn-sm s5-ban-btn">Restrict</span></div></div>
+            <div class="s5-row"><div>@rex</div><div style="font-size:10px;color:#4a4030;font-style:italic">1 hour ago</div><div style="color:#4a4030;font-size:9px;font-style:italic">away</div><div><span class="s5-btn-sm s5-ban-btn">Restrict</span></div></div>
+            <div class="s5-row"><div>@shadow99</div><div style="font-size:10px;color:#4a4030;font-style:italic">3 days ago</div><div class="s5-banned-st">✕ restricted</div><div><span class="s5-btn-sm s5-unban-btn">Restore</span></div></div>
+            <div class="s5-row"><div>@ghost_k</div><div style="font-size:10px;color:#4a4030;font-style:italic">5 days ago</div><div style="color:#4a4030;font-size:9px;font-style:italic">away</div><div><span class="s5-btn-sm s5-ban-btn">Restrict</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:40px 0 20px;font-size:11px;color:#333;font-family:'IBM Plex Mono',monospace">
+    SecureChat · 5 Style Explorations · Pick your direction
+  </div>
+
+</div>
+</body>
+</html>
